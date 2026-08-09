@@ -1,0 +1,92 @@
+generated: '2026-08-09'
+method: searched
+status: published
+source: https://www.bargo.ai/free-apis/congress/mcp
+docs:
+  - https://www.bargo.ai/free-apis/congress
+  - https://github.com/bargo-ai/bargo-free-api-packages/blob/main/docs/mcp.md
+description: >-
+  Bargo hosts a focused Streamable HTTP MCP server for the Congress Trades
+  dataset at https://www.bargo.ai/free-apis/congress/mcp, exposing exactly three
+  narrowly scoped read-only tools. The tool list below was captured live and
+  verbatim from an anonymous JSON-RPC tools/list call (saved to
+  bargo-congress-trades-api-tools-list.json) — handshake and tools/list are open,
+  while tool CALLS require a free fak_ API key passed as X-Api-Key, as an
+  Authorization Bearer header, or as a ?token= query parameter for connector UIs
+  that cannot set headers. Every tool declares execution.taskSupport = forbidden,
+  i.e. synchronous calls only, no long-running agent tasks.
+server:
+  name: bargo-congress
+  transport: http
+  protocol: Streamable HTTP
+  url: https://www.bargo.ai/free-apis/congress/mcp
+  auth: apiKey
+  auth_header: X-Api-Key
+  auth_alternatives:
+    - 'Authorization: Bearer <fak_ key>'
+    - '?token=<fak_ key> query parameter (for connector UIs without header support)'
+  key_prefix: fak_
+  key_signup: https://www.bargo.ai/free-apis/dash
+  anonymous_operations:
+    - initialize
+    - tools/list
+bridge:
+  description: >-
+    Bargo publishes an official Docker image that bridges stdio-only MCP clients
+    to the hosted Streamable HTTP endpoint. It packages the maintained mcp-remote
+    bridge and embeds no key and no Congress records.
+  image: bargoai/congress-trades-mcp:latest
+  registry: https://hub.docker.com/r/bargoai/congress-trades-mcp
+  transport: stdio
+  run: docker run --rm -i -e BARGO_API_KEY="YOUR_KEY" bargoai/congress-trades-mcp:latest
+  source: https://github.com/bargo-ai/bargo-free-api-packages/tree/main/docker/mcp-bridge
+tools:
+  - name: get_congress_trades
+    description: >-
+      U.S. Congress stock trades from official STOCK Act Periodic Transaction
+      Reports (House Clerk + Senate eFD). Filter by ticker, member (substring),
+      chamber, or type. Newest transaction first.
+    input_schema:
+      ticker: {type: string, minLength: 1, maxLength: 16}
+      member: {type: string, minLength: 2, maxLength: 40}
+      chamber: {type: string, enum: [house, senate]}
+      type: {type: string, enum: [purchase, sale, exchange]}
+      limit: {type: integer, minimum: 1, maximum: 200, default: 50}
+    required: []
+    source_operation: openapi/bargo-congress-trades-api-congress-trades-openapi.yml#listCongressTrades
+  - name: get_congress_member
+    description: >-
+      All disclosed trades for one member of Congress plus a performance summary
+      (trade count, buys/sells, average per-share return on disclosed buys).
+    input_schema:
+      member_slug: {type: string, minLength: 2, maxLength: 80}
+      limit: {type: integer, minimum: 1, maximum: 500, default: 200}
+    required: [member_slug]
+    source_operation: openapi/bargo-congress-trades-api-congress-trades-openapi.yml#getCongressMember
+  - name: get_congress_stats
+    description: >-
+      Aggregate Congress-trading stats: total trades/members/tickers, buy vs sell
+      counts, latest transaction & disclosure dates, and the most-traded tickers
+      over the last 90 days.
+    input_schema: {}
+    required: []
+    source_operation: openapi/bargo-congress-trades-api-congress-trades-openapi.yml#getCongressTradeStats
+related_servers:
+  - name: bargo-stocks
+    url: https://www.bargo.ai/mcp
+    scope: out-of-scope-for-this-repo
+    tools: 62
+    auth: 'apiKey (swmcp_ credential, separate from the free fak_ Congress key)'
+    card: well-known/bargo-congress-trades-api-mcp-server-card.json
+    note: >-
+      Bargo's full market-intelligence MCP server. Documented here only because
+      its discovery card is served from the same host. A free Congress fak_ key
+      does NOT authorize it; Bargo states this explicitly in llms.txt and in the
+      published agent skill.
+x-evidence:
+  fetched: '2026-08-09'
+  url: https://www.bargo.ai/free-apis/congress/mcp
+  method: 'POST {"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+  http_status: 200
+  content_type: application/json
+  verbatim: mcp/bargo-congress-trades-api-tools-list.json

@@ -1,0 +1,60 @@
+generated: '2026-08-09'
+method: searched
+source: https://www.bargo.ai/.well-known/
+host: https://www.bargo.ai
+description: >-
+  Well-known discovery surface probed on the single production host
+  (www.bargo.ai) that serves both the Congress Trades REST API and the two MCP
+  endpoints. The only document Bargo publishes under /.well-known/ is a
+  non-standard MCP server card at /.well-known/mcp/server-card.json, which
+  describes Bargo's FULL market-intelligence MCP server (bargo-stocks, 62 tools
+  at https://www.bargo.ai/mcp) rather than the focused Congress MCP endpoint
+  this repo profiles. No RFC 9116 security.txt, no OIDC/OAuth discovery
+  (the API is API-key authenticated, not OAuth), no RFC 9727 api-catalog,
+  and no A2A agent card.
+documents:
+  - path: /.well-known/mcp/server-card.json
+    status: 200
+    content_type: application/json
+    file: bargo-congress-trades-api-mcp-server-card.json
+    note: >-
+      Machine-readable MCP discovery card for the full Bargo MCP server
+      (name bargo-stocks, version 1.0.0) — endpoint, apiKey auth scheme,
+      62 tools and 11 resources. Not a registered IANA well-known suffix.
+      Scope note: authorizes with a swmcp_ credential, which is a DIFFERENT
+      credential from the fak_ free key that authorizes the Congress API and
+      the Congress MCP endpoint.
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+other_discovery:
+  - path: /llms.txt
+    status: 200
+    file: llms/bargo-congress-trades-api-llms.txt
+    note: Provider-published llms.txt, captured verbatim.
+  - path: /robots.txt
+    status: 200
+    note: 'User-agent: * / Allow: / with a sitemap reference — crawling is permitted.'
+  - path: /llms-full.txt
+    status: 404
+x-evidence:
+  fetched: '2026-08-09'
+  probe_note: >-
+    All probes issued anonymously over HTTPS. The host sits behind a Cloudflare
+    managed challenge that 403s requests carrying a curl TLS fingerprint; the
+    statuses above were confirmed with a Python urllib client, which the edge
+    admits. Static assets (/robots.txt, /llms.txt, /.well-known/mcp/server-card.json,
+    /free-apis/congress/embed.js) answer 200 to either client.

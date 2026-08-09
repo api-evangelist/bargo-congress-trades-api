@@ -1,0 +1,132 @@
+generated: '2026-08-09'
+method: derived
+source: openapi/bargo-congress-trades-api-congress-trades-openapi.yml
+docs: https://www.bargo.ai/free-apis/congress
+description: >-
+  Entity-relationship graph derived from the eleven component schemas in Bargo's
+  OpenAPI 3.0.3 contract and their $ref links. The domain is deliberately small:
+  one fact table (Trade), one dimension (Member), and aggregate rollups. There
+  are no opaque resource identifiers and no id-prefix scheme — the only join key
+  in the whole model is member_slug, a human-readable slug that appears on every
+  trade row and addresses the member-detail path.
+identifiers:
+  primary_key: member_slug
+  form: lowercase-hyphenated-name
+  examples: [nancy-pelosi, gilbert-cisneros]
+  note: >-
+    Trades have no identifier of their own — a trade row is not individually
+    addressable and cannot be fetched, only listed. There is no trade id, no
+    filing id and no id-prefix convention anywhere in the contract.
+  ticker: Uppercase stock symbol, used as a path segment on /trades/{ticker}.
+entities:
+  - name: Trade
+    schema: '#/components/schemas/Trade'
+    description: One normalized STOCK Act securities transaction disclosure.
+    addressable: false
+    fields:
+      identity: [member, member_slug, chamber, state]
+      security: [ticker, asset]
+      transaction: [type, amount_low, amount_high, amount_range, transaction_date, disclosure_date]
+      performance: [est_price, recent_price, recent_price_date, perf_pct, realized_return_pct, outcome]
+      provenance: [filing_portal]
+    enums:
+      chamber: [house, senate]
+      type: [purchase, sale, exchange]
+    notes:
+      - amount_low/amount_high/amount_range are a disclosed RANGE, never an exact value.
+      - transaction_date is the trade date, disclosure_date is the filing date; they differ by up to ~45 days.
+      - performance fields are Bargo-derived per-share estimates, not broker-confirmed execution data, and are widely nullable.
+      - filing_portal links back to the official House Clerk or Senate eFD source record.
+  - name: Member
+    schema: '#/components/schemas/MemberSummary'
+    description: A member of Congress with disclosure activity, as a roster row.
+    addressable: true
+    path: /members/{member_slug}
+    fields: [member, member_slug, chamber, state, trade_count, buy_count, sell_count, last_trade_date]
+  - name: MemberDetail
+    schema: '#/components/schemas/MemberDetail'
+    description: One member's profile with an embedded statistics block and an embedded trade list.
+    fields: [member, member_slug, chamber, state, stats, trades]
+  - name: MemberStats
+    schema: '#/components/schemas/MemberStats'
+    description: Per-member performance rollup, embedded in MemberDetail.
+  - name: Stats
+    schema: '#/components/schemas/Stats'
+    description: Dataset-wide aggregate — totals, freshness dates, and a most-traded-tickers list.
+    fields: [totals, latest_transaction, latest_disclosure, most_traded_90d]
+  - name: Totals
+    schema: '#/components/schemas/Totals'
+    description: Count rollup embedded in Stats.
+  - name: TradedTicker
+    schema: '#/components/schemas/TradedTicker'
+    description: One ticker with its 90-day activity count, embedded in Stats.
+  - name: Health
+    schema: '#/components/schemas/Health'
+    description: Liveness and dataset-freshness probe result.
+    fields: [status, trades, latest_disclosure, note]
+  - name: Error
+    schema: '#/components/schemas/Error'
+    description: The single error envelope for the whole API — one required `error` string.
+envelopes:
+  - name: TradePage
+    schema: '#/components/schemas/TradePage'
+    wraps: Trade
+    fields: [trades, page, limit, count]
+  - name: MemberList
+    schema: '#/components/schemas/MemberList'
+    wraps: MemberSummary
+    fields: [members]
+relationships:
+  - from: TradePage
+    to: Trade
+    kind: has_many
+    via: trades
+    binding: $ref
+  - from: MemberList
+    to: MemberSummary
+    kind: has_many
+    via: members
+    binding: $ref
+  - from: MemberDetail
+    to: Trade
+    kind: has_many
+    via: trades
+    binding: $ref
+  - from: MemberDetail
+    to: MemberStats
+    kind: has_one
+    via: stats
+    binding: $ref
+  - from: Stats
+    to: Totals
+    kind: has_one
+    via: totals
+    binding: $ref
+  - from: Stats
+    to: TradedTicker
+    kind: has_many
+    via: most_traded_90d
+    binding: $ref
+  - from: Trade
+    to: Member
+    kind: belongs_to
+    via: member_slug
+    binding: id-reference
+    note: >-
+      The only cross-entity id reference in the model. member_slug on a trade row
+      is the value an agent feeds to GET /members/{member_slug} — and, because no
+      MCP tool exposes GET /members, it is the only way to discover a valid slug
+      over the MCP surface.
+  - from: Trade
+    to: TradedTicker
+    kind: belongs_to
+    via: ticker
+    binding: value-reference
+    note: ticker is a shared value, not a modelled entity; there is no /tickers resource.
+access_paths:
+  - {entity: Trade, operation: listCongressTrades, path: GET /trades}
+  - {entity: Trade, operation: listCongressTradesByTicker, path: 'GET /trades/{ticker}'}
+  - {entity: Member, operation: listCongressMembers, path: GET /members}
+  - {entity: MemberDetail, operation: getCongressMember, path: 'GET /members/{member_slug}'}
+  - {entity: Stats, operation: getCongressTradeStats, path: GET /stats}
+  - {entity: Health, operation: getCongressApiHealth, path: GET /health}

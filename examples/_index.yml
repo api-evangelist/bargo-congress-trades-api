@@ -1,0 +1,74 @@
+generated: '2026-08-09'
+method: searched
+source: https://www.bargo.ai/free-apis/congress
+description: >-
+  Real response payloads for the Bargo Congress Trades API. The health and stats
+  examples were captured live and anonymously from the production API on
+  2026-08-09 and are unedited. The trades-by-ticker example is the provider's own
+  documented sample response, copied verbatim from the documentation page — it
+  uses a placeholder member ("Hon. Jane Doe") because Bargo publishes it that
+  way. Nothing here is synthesized.
+examples:
+  - file: bargo-congress-trades-api-get-health-example.json
+    operation: getCongressApiHealth
+    request: GET https://www.bargo.ai/free-apis/congress/v1/health
+    schema: '#/components/schemas/Health'
+    method: probed
+    captured: '2026-08-09'
+    http_status: 200
+    note: Live, unedited. Contains no personal data.
+  - file: bargo-congress-trades-api-get-stats-example.json
+    operation: getCongressTradeStats
+    request: GET https://www.bargo.ai/free-apis/congress/v1/stats
+    schema: '#/components/schemas/Stats'
+    method: probed
+    captured: '2026-08-09'
+    http_status: 200
+    note: >-
+      Live, unedited. Aggregate counts and most-traded tickers only — no
+      individual member is named in this payload.
+  - file: bargo-congress-trades-api-list-trades-by-ticker-example.json
+    operation: listCongressTradesByTicker
+    request: 'GET https://www.bargo.ai/free-apis/congress/v1/trades/NVDA?limit=2'
+    schema: '#/components/schemas/TradePage'
+    method: searched
+    source: https://www.bargo.ai/free-apis/congress
+    note: >-
+      Provider-published sample response, verbatim. The member name is Bargo's
+      own placeholder, not a live record — deliberately preserved rather than
+      replaced with real disclosure data.
+code_samples:
+  description: First-party usage samples published by Bargo, one per supported client.
+  samples:
+    - language: shell
+      source: https://www.bargo.ai/free-apis/congress
+      code: 'curl "https://www.bargo.ai/free-apis/congress/v1/trades?ticker=NVDA&limit=5"'
+    - language: shell
+      source: https://github.com/bargo-ai/bargo-free-api-packages
+      code: |
+        curl -H "X-Api-Key: $BARGO_API_KEY" \
+          "https://www.bargo.ai/free-apis/congress/v1/trades?chamber=senate&type=buy&limit=10"
+    - language: javascript
+      source: https://github.com/bargo-ai/bargo-free-api-packages/blob/main/docs/javascript.md
+      code: |
+        import { BargoCongressClient } from "@bargo-ai/congress";
+
+        const client = new BargoCongressClient({ apiKey: process.env.BARGO_API_KEY });
+        const { trades } = await client.tickerTrades("NVDA", { limit: 5 });
+        for (const t of trades) {
+          console.log(t.member, t.type, t.amount_range, t.transaction_date);
+        }
+    - language: python
+      source: https://github.com/bargo-ai/bargo-free-api-packages/blob/main/docs/python.md
+      code: |
+        from bargo_congress import BargoCongressClient
+
+        client = BargoCongressClient()  # or BargoCongressClient(api_key="...")
+        data = client.ticker_trades("NVDA", limit=5)
+        for trade in data["trades"]:
+            print(trade["member"], trade["type"], trade["amount_range"], trade["transaction_date"])
+    - language: html
+      source: https://www.bargo.ai/free-apis/congress
+      code: |
+        <div data-congress-ticker="NVDA"></div>
+        <script src="https://www.bargo.ai/free-apis/congress/embed.js" async></script>

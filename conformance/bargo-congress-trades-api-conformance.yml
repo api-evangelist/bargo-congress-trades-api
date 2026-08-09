@@ -1,0 +1,127 @@
+generated: '2026-08-09'
+method: derived
+source: openapi/bargo-congress-trades-api-congress-trades-openapi.yml
+docs: https://www.bargo.ai/free-apis/congress
+description: >-
+  Cross-cutting standards conformance for the Bargo Congress Trades API,
+  asserted from the live OpenAPI 3.0.3 contract, the live MCP tools/list
+  response, and the provider's published documentation. Bargo publishes no
+  compliance program (no SOC 2, ISO 27001, PCI, HIPAA or FedRAMP claim), so no
+  `Compliance` pointer is wired — this file records specification conformance
+  only. A `conforms: false` here is a factual absence, not a defect: an
+  anonymous, read-only, GET-only public-data API has no business implementing
+  OAuth or FAPI.
+standards:
+  - id: openapi-3.0.3
+    conforms: true
+    evidence: >-
+      Provider publishes a valid OpenAPI 3.0.3 document at
+      https://www.bargo.ai/free-apis/congress/openapi.json — 6 operations, all
+      with unique operationIds, summaries, descriptions and tags; 11 named
+      component schemas; 8 named component responses; declared securitySchemes.
+  - id: mcp
+    conforms: true
+    version: Streamable HTTP
+    evidence: >-
+      Live JSON-RPC tools/list at https://www.bargo.ai/free-apis/congress/mcp
+      returned 200 anonymously with 3 tools, each carrying a JSON Schema
+      draft-07 inputSchema. Verbatim capture in
+      mcp/bargo-congress-trades-api-tools-list.json.
+  - id: json-schema-draft-07
+    conforms: true
+    evidence: 'MCP tool inputSchemas declare $schema http://json-schema.org/draft-07/schema#.'
+  - id: llms-txt
+    conforms: true
+    evidence: >-
+      https://www.bargo.ai/llms.txt returns 200 in correct llms.txt form — H1
+      name, blockquote summary, and sectioned link lists. Captured verbatim to
+      llms/bargo-congress-trades-api-llms.txt.
+  - id: agent-skill
+    conforms: true
+    evidence: >-
+      Provider publishes a packaged Agent Skill with name/description
+      frontmatter at
+      github.com/bargo-ai/bargo-free-api-packages/blob/main/skills/bargo-congress-api/SKILL.md,
+      plus an OpenAI agent interface descriptor alongside it.
+  - id: rest
+    conforms: true
+    evidence: >-
+      Resource-oriented paths, GET-only, JSON representations, meaningful use of
+      400/401/404/429. No hypermedia controls.
+  - id: cors
+    conforms: true
+    evidence: >-
+      Documentation states "Open CORS"; the first-party embed.js widget calls
+      the API directly from the browser on third-party origins.
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: >-
+      Errors are application/json with a bare {"error": string} envelope, not
+      application/problem+json. No type URI, title, status or detail members.
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: 'https://www.bargo.ai/.well-known/security.txt returned 404.'
+  - id: rfc8594-sunset-header
+    conforms: false
+    evidence: No deprecation or sunset policy published; no Sunset/Deprecation header documented or declared.
+  - id: rfc9727-api-catalog
+    conforms: false
+    evidence: 'https://www.bargo.ai/.well-known/api-catalog returned 404.'
+  - id: oauth2
+    conforms: false
+    evidence: >-
+      securitySchemes declare apiKey (header X-Api-Key), http bearer, and apiKey
+      (query token) only. No oauth2 flows. /.well-known/oauth-authorization-server
+      returned 404.
+  - id: oidc
+    conforms: false
+    evidence: '/.well-known/openid-configuration returned 404.'
+  - id: a2a
+    conforms: false
+    evidence: >-
+      Both /.well-known/agent-card.json and the legacy /.well-known/agent.json
+      returned 404 on www.bargo.ai. No agent card is published, so none was
+      recorded.
+  - id: asyncapi
+    conforms: false
+    applicable: false
+    evidence: >-
+      No event, streaming or webhook surface exists — the API is entirely
+      request/response GET. Not applicable rather than failed.
+  - id: hsts
+    conforms: false
+    evidence: >-
+      TLSv1.3 is served but no Strict-Transport-Security header is set on
+      www.bargo.ai. See security/bargo-congress-trades-api-domain-security.yml.
+  - id: dnssec
+    conforms: false
+    evidence: 'bargo.ai is not DNSSEC-signed; no CAA records published.'
+  - id: dmarc
+    conforms: partial
+    evidence: 'SPF and DMARC records exist for bargo.ai, but DMARC policy is p=none (monitor only).'
+data_provenance:
+  description: >-
+    Not a conformance standard, but the upstream authority this dataset derives
+    from, which Bargo documents explicitly.
+  upstream:
+    - {name: U.S. House Clerk Financial Disclosure, url: 'https://disclosures-clerk.house.gov/FinancialDisclosure'}
+    - {name: U.S. Senate Electronic Financial Disclosure (eFD), url: 'https://efdsearch.senate.gov/search/'}
+  regime: STOCK Act (Stop Trading on Congressional Knowledge Act) Periodic Transaction Reports
+  citation:
+    doi: 10.5281/zenodo.21574840
+    title: 'US Congressional Securities Transactions, 2005–present'
+    url: https://doi.org/10.5281/zenodo.21574840
+    note: >-
+      The citable full-history record is registered on Zenodo with restricted
+      data access; the free API distributes a rolling 3-month window.
+  disclaimer: >-
+    Bargo states this is an independent, unofficial normalization, not affiliated
+    with or endorsed by the U.S. House, the U.S. Senate, or any member of Congress.
+compliance_program:
+  published: false
+  certifications: []
+  note: >-
+    No trust center, no named certification, and no compliance page. Probed
+    trust.bargo.ai (DNS NXDOMAIN), https://www.bargo.ai/security (404) and
+    https://www.bargo.ai/.well-known/security.txt (404). No `Compliance` pointer
+    is wired in apis.yml, because there is no compliance program to point at.

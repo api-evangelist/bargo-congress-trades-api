@@ -1,0 +1,96 @@
+generated: '2026-08-09'
+method: derived
+source: >-
+  mcp/bargo-congress-trades-api-tools-list.json (live anonymous tools/list) ×
+  openapi/bargo-congress-trades-api-congress-trades-openapi.yml
+description: >-
+  Binds each tool published by Bargo's focused Congress MCP server to the
+  OpenAPI operation that backs it, so an agent can inherit the operation's real
+  parameters and response schema instead of guessing. Both surfaces were
+  captured live and anonymously, so every binding below is checked against a
+  real inputSchema and a real operationId — no name-only guessing was needed.
+  The MCP surface is a deliberate NARROWING of REST: three tools cover four of
+  the six REST operations, and the MCP tool schemas cap limit lower than REST
+  does (200 vs 250 on trades) while dropping REST's date-range and pagination
+  parameters entirely.
+surfaces:
+  openapi:
+    file: openapi/bargo-congress-trades-api-congress-trades-openapi.yml
+    original: openapi/_original/bargo-congress-trades-api-openapi.json
+    url: https://www.bargo.ai/free-apis/congress/openapi.json
+    operations: 6
+    gated: false
+  mcp:
+    url: https://www.bargo.ai/free-apis/congress/mcp
+    transport: Streamable HTTP
+    tools: 3
+    gated: false
+    note: >-
+      tools/list is anonymous and returned full inputSchemas; tool CALLS require
+      a free fak_ key. Schemas here are the provider's own, not inferred.
+  graphql:
+    present: false
+crosswalk:
+  - tool: get_congress_trades
+    category: trades
+    rest:
+      - listCongressTrades
+      - listCongressTradesByTicker
+    binding: rest
+    confidence: high
+    note: >-
+      One tool fans out over two REST operations. The tool accepts an optional
+      `ticker`; REST splits that into GET /trades (ticker as a query filter) and
+      GET /trades/{ticker} (ticker as a path segment). The official Python and
+      JavaScript clients make the same fan-out explicit — trades() delegates to
+      ticker_trades() when a ticker is supplied. Tool parameters ticker, member,
+      chamber, type and limit all map 1:1 to REST query parameters of the same
+      name. REST-only on this pair: `from`, `to` and `page`; REST also allows
+      limit up to 250 with a key, where the tool caps at 200.
+  - tool: get_congress_member
+    category: members
+    rest:
+      - getCongressMember
+    binding: rest
+    confidence: high
+    note: >-
+      Direct binding. Tool `member_slug` (required) is the REST path parameter
+      member_slug; `limit` maps to the MemberTradeLimitQuery parameter, though
+      the tool permits up to 500 where the REST operation caps at 250.
+  - tool: get_congress_stats
+    category: statistics
+    rest:
+      - getCongressTradeStats
+    binding: rest
+    confidence: high
+    note: >-
+      Direct binding, no parameters on either side. Returns the Stats schema
+      (totals, latest_transaction, latest_disclosure, most_traded_90d).
+mcp_only: []
+rest_only:
+  - operation: listCongressMembers
+    path: GET /members
+    capability: member discovery
+    note: >-
+      Ranked member roster with buy/sell counts and last-trade date. No MCP tool
+      exposes it; an agent must discover a member_slug from the rows returned by
+      get_congress_trades before it can call get_congress_member. The provider's
+      own published skill documents exactly this workaround.
+  - operation: getCongressApiHealth
+    path: GET /health
+    capability: liveness and dataset freshness
+    note: >-
+      The only operation with no auth requirement at all (security: []). Not
+      exposed as a tool; get_congress_stats carries overlapping freshness fields
+      (latest_transaction, latest_disclosure).
+coverage:
+  tools_named: 3
+  tools_bound: 3
+  tools_unbound: 0
+  mcp_only: 0
+  rest_operations_total: 6
+  rest_operations_with_tool: 4
+  rest_only: 2
+  parameter_divergence:
+    - 'REST-only parameters: from, to, page (date-range filtering and pagination are unavailable over MCP)'
+    - 'limit ceilings differ: trades REST 250 vs MCP 200; member REST 250 vs MCP 500'

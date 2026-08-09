@@ -1,0 +1,24 @@
+{
+  "trades": [
+    {
+      "member": "Hon. Jane Doe",
+      "member_slug": "hon-jane-doe",
+      "chamber": "house",
+      "state": "CA",
+      "ticker": "NVDA",
+      "asset": "NVIDIA Corporation",
+      "type": "purchase",
+      "amount_range": "$1,001 - $15,000",
+      "transaction_date": "2026-05-12",
+      "disclosure_date": "2026-06-02",
+      "est_price": 118.40,
+      "recent_price": 192.71,
+      "perf_pct": 62.8,
+      "outcome": "winner",
+      "filing_portal": "https://disclosures-clerk.house.gov/FinancialDisclosure"
+    }
+  ],
+  "page": 0,
+  "limit": 2,
+  "count": 2
+}

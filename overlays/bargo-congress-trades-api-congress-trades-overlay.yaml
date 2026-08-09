@@ -1,0 +1,139 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Bargo Congress Trades API
+  version: 1.0.0
+extends: openapi/bargo-congress-trades-api-congress-trades-openapi.yml
+x-provenance:
+  generated: '2026-08-09'
+  method: generated
+  source: >-
+    Derived from artifacts in this repo (conventions/, rate-limits/, errors/,
+    lifecycle/, mcp/, data-model/) plus the provider's published documentation.
+    The harvested spec in openapi/_original/ is never mutated; this overlay is
+    the sole record of our additions.
+  note: >-
+    Every action below adds cataloguing metadata or restates a rule the provider
+    already publishes in prose. No operation, parameter, schema or response is
+    added, removed or reinterpreted.
+actions:
+  - target: $.info
+    description: Catalog identity and rating metadata.
+    update:
+      x-apievangelist-slug: bargo-congress-trades-api
+      x-apievangelist-provider: Bargo
+      x-apievangelist-enriched: '2026-08-09'
+      x-apievangelist-source: https://www.bargo.ai/free-apis/congress/openapi.json
+
+  - target: $.info
+    description: >-
+      Record the upstream authority and citation for the dataset, which the
+      provider documents on the docs page but not in the contract.
+    update:
+      x-data-provenance:
+        regime: STOCK Act Periodic Transaction Reports
+        upstream:
+          - https://disclosures-clerk.house.gov/FinancialDisclosure
+          - https://efdsearch.senate.gov/search/
+        disclosure_lag_days: 45
+        free_tier_window: rolling 3 months
+        citation_doi: 10.5281/zenodo.21574840
+        official: false
+        note: >-
+          Independent, unofficial normalization. Not affiliated with or endorsed
+          by the U.S. House, the U.S. Senate, or any member of Congress.
+
+  - target: $.info
+    description: >-
+      Surface the published fair-use quotas and the attribution obligation in
+      the machine-readable contract, where today they exist only in prose.
+    update:
+      x-rate-limits:
+        anonymous: {requests_per_day: 30, rows_per_day: 100, scope: ip, max_page_size: 100}
+        free_key: {requests_per_day: 100, rows_per_day: 1000, scope: key, max_page_size: 250}
+        headers: 'X-RateLimit-*'
+        authoritative: response-headers
+        throttled_status: 429
+        artifact: rate-limits/bargo-congress-trades-api-rate-limits.yml
+      x-attribution:
+        required: true
+        rule: Visible, above-the-fold credit linking back to Bargo wherever the data is displayed publicly.
+        redistribution: Bulk redistribution of raw records is not permitted.
+        terms: https://www.bargo.ai/free-apis/terms
+
+  - target: $.info
+    description: >-
+      Declare the agent surface. The MCP endpoint is a first-class access path
+      for this API but is invisible from the OpenAPI document alone.
+    update:
+      x-agent-surface:
+        mcp:
+          url: https://www.bargo.ai/free-apis/congress/mcp
+          transport: Streamable HTTP
+          tools: [get_congress_trades, get_congress_member, get_congress_stats]
+          auth: 'X-Api-Key (fak_ key); tools/list is anonymous'
+          crosswalk: mcp/bargo-congress-trades-api-tool-crosswalk.yml
+        llms_txt: https://www.bargo.ai/llms.txt
+        agent_skill: https://github.com/bargo-ai/bargo-free-api-packages/blob/main/skills/bargo-congress-api/SKILL.md
+        agent_card: null
+
+  - target: $.info
+    description: >-
+      State the conventions an agent gets wrong without them, and point at the
+      captured artifacts that carry the detail.
+    update:
+      x-conventions:
+        read_only: true
+        methods: [GET]
+        cors: open
+        idempotency_key: false
+        idempotency_note: All operations are GET, so every call is safe and retriable; no idempotency-key contract exists or is needed.
+        pagination: {style: zero-based-page, params: [page, limit], response_fields: [page, limit, count], cursor: false, total: false}
+        error_envelope: '{"error": string}'
+        rfc9457: false
+        join_key: member_slug
+        artifacts:
+          conventions: conventions/bargo-congress-trades-api-conventions.yml
+          errors: errors/bargo-congress-trades-api-problem-types.yml
+          data_model: data-model/bargo-congress-trades-api-data-model.yml
+          lifecycle: lifecycle/bargo-congress-trades-api-lifecycle.yml
+
+  - target: $.paths['/trades'].get
+    description: Bind the operation to its MCP tool and flag the parameters MCP cannot express.
+    update:
+      x-mcp-tool: get_congress_trades
+      x-mcp-parameter-gap: [from, to, page]
+
+  - target: $.paths['/trades/{ticker}'].get
+    description: >-
+      This operation is reached through the same MCP tool, by supplying the
+      optional ticker argument.
+    update:
+      x-mcp-tool: get_congress_trades
+      x-mcp-binding: fan-out
+      x-mcp-parameter-gap: [from, to, page]
+
+  - target: $.paths['/members/{member_slug}'].get
+    update:
+      x-mcp-tool: get_congress_member
+
+  - target: $.paths['/stats'].get
+    update:
+      x-mcp-tool: get_congress_stats
+
+  - target: $.paths['/members'].get
+    description: >-
+      No MCP tool exposes the member roster, so an agent on the MCP surface must
+      harvest member_slug from trade rows instead.
+    update:
+      x-mcp-tool: null
+      x-rest-only: true
+
+  - target: $.paths['/health'].get
+    description: >-
+      The only fully unauthenticated operation, and the nearest thing this
+      provider has to a status signal — there is no status page.
+    update:
+      x-mcp-tool: null
+      x-rest-only: true
+      x-unauthenticated: true
+      x-serves-as: data-freshness-and-liveness

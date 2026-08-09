@@ -1,0 +1,60 @@
+generated: '2026-08-09'
+method: searched
+source: https://github.com/bargo-ai/bargo-free-api-packages/blob/main/skills/bargo-congress-api/SKILL.md
+description: >-
+  Bargo publishes its own packaged Agent Skill for the Congress Trades API. It
+  is captured here VERBATIM — API Evangelist authored no skill for this provider
+  and generated nothing, because the provider already ships one that covers the
+  whole surface. The skill is unusually complete for its size: it names the
+  canonical resources, prescribes an endpoint-selection order, sets credential
+  hygiene (including the fak_ vs swmcp_ scope separation), enumerates the error
+  statuses and their retry posture, and — the part most provider skills omit —
+  tells the agent how to INTERPRET the data without overstating it.
+skills:
+  - file: bargo-congress-api.md
+    name: bargo-congress-api
+    method: searched
+    verbatim: true
+    source: https://github.com/bargo-ai/bargo-free-api-packages/blob/main/skills/bargo-congress-api/SKILL.md
+    description: >-
+      Query and analyze normalized U.S. House and Senate STOCK Act transaction
+      disclosures with the Bargo Congress Trades API.
+    api: openapi/bargo-congress-trades-api-congress-trades-openapi.yml
+    operations:
+      - listCongressTrades
+      - listCongressTradesByTicker
+      - listCongressMembers
+      - getCongressMember
+      - getCongressTradeStats
+      - getCongressApiHealth
+    operations_note: >-
+      The skill addresses operations by path (/trades, /trades/{ticker},
+      /members, /members/{member_slug}, /stats, /health). Each was resolved to
+      the operationId declared in the harvested OpenAPI and verified present —
+      all six operations in the contract are covered.
+    mcp_tools:
+      - get_congress_trades
+      - get_congress_member
+      - get_congress_stats
+    covers:
+      - access-method selection (REST vs JS client vs Python client vs MCP)
+      - query workflow and endpoint narrowing
+      - zero-based page pagination
+      - credential handling and the fak_ / swmcp_ scope boundary
+      - error statuses 400/401/404/429 and when to retry
+      - disclosure-timing, amount-range and estimated-performance caveats
+      - attribution and filing_portal citation on public display
+companions:
+  - file: agents/openai.yaml
+    source: https://github.com/bargo-ai/bargo-free-api-packages/blob/main/skills/bargo-congress-api/agents/openai.yaml
+    captured: false
+    description: >-
+      A 3-line OpenAI agent interface descriptor (display_name,
+      short_description, default_prompt) that accompanies the skill upstream.
+      Not mirrored here — it carries no API contract detail, only presentation
+      metadata for one vendor's agent UI.
+x-evidence:
+  fetched: '2026-08-09'
+  url: https://raw.githubusercontent.com/bargo-ai/bargo-free-api-packages/main/skills/bargo-congress-api/SKILL.md
+  http_status: 200
+  bytes: 5499

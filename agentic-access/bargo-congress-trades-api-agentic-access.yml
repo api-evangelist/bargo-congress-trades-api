@@ -1,0 +1,74 @@
+generated: '2026-08-09'
+method: generated
+source: openapi/bargo-congress-trades-api-congress-trades-openapi.yml
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 6
+  by_action_class:
+    connected: 6
+  by_consequence:
+    read: 6
+  human_in_the_loop_required: 0
+operations:
+- path: /trades
+  method: get
+  operationId: listCongressTrades
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /trades/{ticker}
+  method: get
+  operationId: listCongressTradesByTicker
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /members
+  method: get
+  operationId: listCongressMembers
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /members/{member_slug}
+  method: get
+  operationId: getCongressMember
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /stats
+  method: get
+  operationId: getCongressTradeStats
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /health
+  method: get
+  operationId: getCongressApiHealth
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none

@@ -1,0 +1,54 @@
+# Bargo
+
+> AI & semiconductor stock-market intelligence, exposed read-only over the Model Context Protocol (MCP) and as a research site. Coverage spans AI-lab model-release cadence, GPU/datacenter economics, dealer options positioning (GEX), 13F hedge-fund holdings, insider (Form 4) trades, SEC filings, earnings, U.S. congressional stock trades, prediction markets, and curated primary AI-research sources.
+
+Bargo synthesizes across many pivots and separates leading from lagging signals. All data is read-only and informational — never buy/sell advice.
+
+## For AI agents (MCP)
+
+- [MCP server](https://www.bargo.ai/mcp): Remote MCP endpoint. Structured, read-only access to the full toolset — live quotes, options flow & dealer positioning (GEX, gamma flip, call/put walls, IV skew), signed order flow, 13F holdings, insider trades, SEC 10-Q/10-K/8-K, earnings calendar, congressional trades, authority/news sentiment, GPU/CPU spot pricing, and inference economics. Start with `get_table_catalog`, then `get_comprehensive_snapshot`.
+- [MCP server card](https://www.bargo.ai/.well-known/mcp/server-card.json): Machine-readable discovery card — endpoint, auth scheme, and tool catalog.
+
+## Free APIs (public, no account required)
+
+- [Congress Trades API](https://www.bargo.ai/free-apis/congress): Documentation for the free REST API over normalized U.S. House and Senate STOCK Act disclosures. Filter by ticker, member, chamber, transaction type, and date range.
+- [REST base](https://www.bargo.ai/free-apis/congress/v1/trades): `https://www.bargo.ai/free-apis/congress/v1` with endpoints `/health`, `/stats`, `/members`, `/members/{member_slug}`, `/trades`, and `/trades/{ticker}`. Pagination uses `page` starting at 0. JSON only, CORS open, GET only.
+- [OpenAPI spec](https://www.bargo.ai/free-apis/congress/openapi.json): Full schema for the Congress Trades API.
+- [Congress MCP endpoint](https://www.bargo.ai/free-apis/congress/mcp): A focused MCP server that exposes only the congressional trades dataset. Authorized by a free `fak_` key, which does NOT grant access to the full Bargo MCP server above (that uses a separate `swmcp_` credential).
+- [Free API key dashboard](https://www.bargo.ai/free-apis/dash): Create or rotate a key and watch usage. Keyless is 30 requests and 100 rows per day per IP; a free key raises that to 100 requests and 1,000 rows per day. Send it as `X-Api-Key`. Quotas are reported live in the `X-RateLimit-*` response headers.
+- [Free API terms](https://www.bargo.ai/free-apis/terms): Usage terms, including the visible attribution required when the data is displayed publicly.
+
+## Research
+
+- [The Cadence Trade](https://www.bargo.ai/the-cadence-trade): Why Anthropic and OpenAI are about to pull away — offline recursive self-improvement at the lab level, charted from frontier model-release cadence, with the market read-through.
+- [Plotting AI model release cadence (analysis cut)](https://www.bargo.ai/the-cadence-trade-hn): The same thesis, methodology-first and falsifiable, with sources.
+- [The Smart Money Is Quietly Fading the SMR Trade](https://www.bargo.ai/smr-smart-money-fade): Skeptics, stretched valuation, and a retail crowd buying the small-modular-reactor narrative.
+- [Research index](https://www.bargo.ai/research): All Bargo research and analysis.
+
+## AI-economy indices (live, with CSV)
+
+- [Compute Tightness Index](https://www.bargo.ai/compute-tightness): live 0–100 gauge of AI GPU rental-market tightness (H100/H200/B200 spot-vs-on-demand discount + provider availability). The input side of the AI-compute economy. Data: [CSV](https://www.bargo.ai/compute-tightness.csv).
+- [Token Demand Index](https://www.bargo.ai/token-demand): live index of AI token consumption and the effective price of inference by provider group (Claude/OpenAI/Google/xAI/open-source) — the Jevons read (demand rising, effective price falling, open-source taking share). The output side. Data: [CSV](https://www.bargo.ai/token-demand.csv).
+- [AI SaaS Disruption Monitor](https://www.bargo.ai/saas-disruption): daily evidence diagnostic for "is AI eating SaaS?" across 32 software names — AI-exposure vs fundamental-pressure fingerprint with permutation/maturity-control/predictive-lead validation, next-quarter forecasts gated on out-of-sample skill, and the seat-vs-consumption pricing split. Verdict-led: reports association only, never causality or price targets. Data: [CSV](https://www.bargo.ai/saas-disruption.csv).
+
+## Congress stock-trade tracker
+
+- [Congress trades](https://www.bargo.ai/politicians): U.S. House & Senate stock trades from official STOCK Act (Periodic Transaction Report) filings, with per-trade estimated execution price and price-performance/return.
+- [Filed in 7 days](https://www.bargo.ai/politicians/7-days): Congressional trades disclosed in the last 7 days (newest STOCK Act filings first).
+- [Filed in 14 days](https://www.bargo.ai/politicians/14-days): Congressional trades disclosed in the last 14 days.
+- [Filed in 30 days](https://www.bargo.ai/politicians/30-days): Congressional trades disclosed in the last 30 days.
+- [Full index](https://www.bargo.ai/politicians/all): Every tracked lawmaker and ticker.
+- [Search](https://www.bargo.ai/politicians/search): Search congressional trades by member or ticker.
+- [API access](https://www.bargo.ai/free-apis/congress): The same dataset programmatically, over REST or MCP. See Free APIs above.
+
+## Site
+
+- [Home](https://www.bargo.ai/): Product overview and data sources.
+- [Dashboard](https://www.bargo.ai/dash): The live Bargo dashboard (invite only).
+- [XML sitemap](https://www.bargo.ai/sitemap.xml): Full crawlable URL set.
+
+## Optional
+
+- [Privacy](https://www.bargo.ai/privacy)
+- [Terms](https://www.bargo.ai/terms)
+- [Contact](https://www.bargo.ai/contact)

@@ -1,0 +1,131 @@
+generated: '2026-08-09'
+method: searched
+source: https://www.bargo.ai/free-apis/congress
+derived_from: openapi/bargo-congress-trades-api-congress-trades-openapi.yml
+docs:
+  - https://www.bargo.ai/free-apis/congress
+  - https://github.com/bargo-ai/bargo-free-api-packages
+description: >-
+  Cross-cutting request/response semantics for the Bargo Congress Trades API,
+  read from the published documentation page, the live OpenAPI 3.0.3 contract,
+  and the first-party clients. This is a small, uniform, entirely read-only
+  surface: six GET operations, JSON only, open CORS, no request bodies, and no
+  state-changing calls anywhere in the contract.
+transport:
+  protocol: HTTPS
+  methods: [GET]
+  content_type: application/json
+  request_bodies: none
+  cors: open
+  note: >-
+    The docs page states "Open CORS" and the embeddable widget calls the API
+    directly from the browser, which confirms permissive cross-origin access.
+authentication:
+  style: api-key
+  required: false
+  anonymous_access: true
+  preferred: 'X-Api-Key: <fak_ key>'
+  alternatives:
+    - 'Authorization: Bearer <fak_ key>'
+    - '?token=<fak_ key> query parameter (only for clients that cannot set headers)'
+  key_prefix: fak_
+  signup: https://www.bargo.ai/free-apis/dash
+  detail: authentication/bargo-congress-trades-api-authentication.yml
+  note: >-
+    The OpenAPI top-level security array leads with an empty requirement {},
+    which is the machine-readable form of "a key is optional". GET /health
+    declares security: [] — no key is accepted or needed at all.
+idempotency:
+  idempotency_key: false
+  mechanism: http-safe-methods
+  retriable: true
+  note: >-
+    Bargo publishes NO idempotency-key contract, because the API has no
+    unsafe operations to protect: all six operations are GET, so every call is
+    safe and idempotent under HTTP semantics and any of them may be retried
+    freely. This artifact deliberately does NOT claim an idempotency contract,
+    and no `Idempotency` pointer is wired in apis.yml — there is no
+    provider-documented idempotency key to point at. Retry guidance from the
+    provider's own agent skill: retry transient failures only, never 400 or 401.
+pagination:
+  style: zero-based-page
+  params:
+    page: {in: query, type: integer, minimum: 0, default: 0, note: Page index starts at 0, not 1.}
+    limit: {in: query, type: integer, minimum: 1, default: 100, maximum: 250, note: 'Maximum 100 rows without a key, 250 with a free key.'}
+  response_fields: [page, limit, count]
+  applies_to: [listCongressTrades, listCongressTradesByTicker]
+  note: >-
+    /members and /members/{member_slug} take `limit` but no `page`. Responses
+    carry no next/prev cursor and no total — `count` is the number of rows in
+    the current page, so a short page is the end-of-results signal. Bargo
+    advises narrowing with ticker, member or a from/to date range rather than
+    paging deep, and the OpenAPI documents 400 as the response to excessive
+    pagination depth.
+filtering:
+  params:
+    - {name: ticker, applies_to: [listCongressTrades], match: exact, case_insensitive: true}
+    - {name: member, applies_to: [listCongressTrades], match: partial-substring, case_insensitive: true}
+    - {name: chamber, applies_to: [listCongressTrades], enum: [house, senate]}
+    - {name: type, applies_to: [listCongressTrades], enum: [purchase, sale, exchange]}
+    - {name: from, applies_to: [listCongressTrades, listCongressTradesByTicker], format: date, inclusive: true}
+    - {name: to, applies_to: [listCongressTrades, listCongressTradesByTicker], format: date, inclusive: true}
+  ordering: Newest transaction_date first, everywhere.
+field_expansion:
+  supported: false
+  note: Responses are fixed-shape; there is no expand/fields/sparse-fieldset parameter.
+metadata:
+  supported: false
+error_envelope:
+  format: bare-json-object
+  rfc9457: false
+  media_type: application/json
+  shape: '{"error": "<human-readable message>"}'
+  required: [error]
+  note: >-
+    Not RFC 9457 problem+json. A single required string field, `error`; there is
+    no machine-readable error code, type URI or field-level detail. Both
+    first-party clients read body.error into an exception message and attach the
+    HTTP status. Detail: errors/bargo-congress-trades-api-problem-types.yml
+rate_limiting:
+  signaled: true
+  headers: ['X-RateLimit-*']
+  status: 429
+  authoritative_source: response headers
+  note: >-
+    Both the docs page and the package READMEs tell integrators to read live
+    quota from the X-RateLimit-* response headers rather than hardcode the
+    published numbers. Detail: rate-limits/bargo-congress-trades-api-rate-limits.yml
+request_tracing:
+  request_id_header: none
+  note: No correlation/request-id header is documented or declared in the contract.
+versioning:
+  scheme: uri-path
+  current: v1
+  in_url: https://www.bargo.ai/free-apis/congress/v1
+  spec_version: 1.0.0
+  detail: lifecycle/bargo-congress-trades-api-lifecycle.yml
+data_semantics:
+  note: >-
+    Conventions that are unusual enough that an agent will get the answer wrong
+    without them, taken from Bargo's own documentation and published skill.
+  rules:
+    - Amounts are DISCLOSED RANGES (amount_low / amount_high / amount_range), never exact values. Do not manufacture a precise transaction value.
+    - transaction_date is the trade date; disclosure_date is the filing date. STOCK Act filings lag trades by up to ~45 days, so this is recent-weeks data, not a real-time feed.
+    - est_price, recent_price, perf_pct and realized_return_pct are Bargo-derived per-share estimates, not broker-confirmed execution data. Share counts are not disclosed.
+    - The free tier covers a rolling window of the last 3 months, not full history. The unfiltered global feed returns a recent window only.
+    - Nullable fields are pervasive and meaningful; preserve nulls rather than coercing them to zero.
+    - member_slug is the stable join key between /trades, /members and /members/{member_slug}.
+attribution:
+  required: true
+  terms: https://www.bargo.ai/free-apis/terms
+  rule: >-
+    Public display of the data requires a visible, above-the-fold credit linking
+    back to Bargo (CC BY-style). Derivative analyses are permitted; bulk
+    redistribution of the raw records is not.
+  citation: 'US Congressional Securities Transactions, 2005–present — DOI 10.5281/zenodo.21574840'
+cross_links:
+  authentication: authentication/bargo-congress-trades-api-authentication.yml
+  errors: errors/bargo-congress-trades-api-problem-types.yml
+  lifecycle: lifecycle/bargo-congress-trades-api-lifecycle.yml
+  rate_limits: rate-limits/bargo-congress-trades-api-rate-limits.yml
+  data_model: data-model/bargo-congress-trades-api-data-model.yml

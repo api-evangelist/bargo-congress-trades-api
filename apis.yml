@@ -1,11 +1,20 @@
 name: Bargo Congress Trades API
 description: >-
-  A free JSON REST API and hosted MCP server that normalizes U.S. House and Senate STOCK Act securities transaction
-  disclosures, with per-trade performance data. Covers trades, members, and statistics with anonymous read access and an
-  optional free key for higher limits.
+  A free JSON REST API and hosted MCP server from Bargo that normalizes U.S. House and Senate STOCK Act
+  securities transaction disclosures into a queryable dataset — currently 42,000+ disclosed trades across
+  415 members and 4,100+ tickers. Six read-only GET operations cover trades (filterable by ticker, member,
+  chamber, transaction type and date range), a member roster, per-member disclosure histories, aggregate
+  statistics, and a dataset-freshness health check. Unusually for a free congressional-trading tracker,
+  every row carries per-trade price performance — estimated price at the trade, latest price, and percent
+  move since. Records are parsed and deduplicated from the official U.S. House Clerk Financial Disclosure
+  reports and Senate eFD Periodic Transaction Reports, so disclosures lag transactions by up to ~45 days.
+  Access is anonymous by default at a lower quota; a free no-card API key raises limits and unlocks a
+  focused three-tool MCP server for agents. Open CORS, an embeddable browser widget, and first-party
+  JavaScript and Python clients. Attribution is required; bulk redistribution of raw records is not permitted.
+image: https://www.bargo.ai/favicon.png
 url: https://bargo-congress-trades-api.apievangelist.com/apis.yml
 created: '2026-07-26'
-modified: '2026-07-26'
+modified: '2026-08-09'
 specificationVersion: '0.21'
 tags:
   - congress
@@ -14,11 +23,18 @@ tags:
   - government
   - stock-act
   - mcp
+  - congressional-trading
+  - financial-disclosure
+  - market-data
+  - public-data
+  - free-api
+  - open-data
 apis:
   - name: Congress Trades API
     description: >-
-      REST API for normalized U.S. House and Senate STOCK Act stock trade disclosures, with a hosted MCP server exposing
-      congress tools for agents. Endpoints cover trades, members, and statistics.
+      REST API for normalized U.S. House and Senate STOCK Act stock trade disclosures, with per-trade price
+      performance. Six GET operations over trades, ticker-scoped trades, members, member detail, aggregate
+      statistics and health. JSON only, open CORS, zero-based page pagination, optional API key.
     humanURL: https://www.bargo.ai/free-apis/congress
     baseURL: https://www.bargo.ai/free-apis/congress/v1
     tags:
@@ -27,19 +43,131 @@ apis:
       - stocks
       - government
       - stock-act
-      - mcp
+      - congressional-trading
+      - financial-disclosure
     properties:
+      - type: OpenAPI
+        url: openapi/bargo-congress-trades-api-congress-trades-openapi.yml
       - type: OpenAPI
         url: https://www.bargo.ai/free-apis/congress/openapi.json
       - type: Documentation
         url: https://www.bargo.ai/free-apis/congress
+      - type: APIReference
+        url: https://www.bargo.ai/free-apis/congress
+      - type: Authentication
+        url: authentication/bargo-congress-trades-api-authentication.yml
+      - type: Conventions
+        url: conventions/bargo-congress-trades-api-conventions.yml
+      - type: ErrorCatalog
+        url: errors/bargo-congress-trades-api-problem-types.yml
+      - type: DataModel
+        url: data-model/bargo-congress-trades-api-data-model.yml
+      - type: RateLimits
+        url: rate-limits/bargo-congress-trades-api-rate-limits.yml
+      - type: Examples
+        url: examples/_index.yml
+      - type: Overlay
+        url: overlays/bargo-congress-trades-api-congress-trades-overlay.yaml
+      - type: Components
+        url: components/bargo-congress-trades-api-components.yml
+      - type: SDKs
+        url: packages/bargo-congress-trades-api-packages.yml
+  - name: Congress Trades MCP Server
+    description: >-
+      A focused Streamable HTTP MCP server exposing three read-only tools over the Congress Trades dataset —
+      get_congress_trades, get_congress_member and get_congress_stats. The handshake and tools/list are
+      anonymous; tool calls require a free fak_ key via X-Api-Key, Bearer, or a token query parameter. An
+      official Docker image bridges stdio-only MCP clients to it.
+    humanURL: https://www.bargo.ai/free-apis/congress
+    baseURL: https://www.bargo.ai/free-apis/congress/mcp
+    tags:
+      - mcp
+      - agents
+      - congress
+      - stocks
+    properties:
+      - type: MCPServer
+        url: mcp/bargo-congress-trades-api-mcp.yml
       - type: MCPServer
         url: https://www.bargo.ai/free-apis/congress/mcp
+      - type: ToolCrosswalk
+        url: mcp/bargo-congress-trades-api-tool-crosswalk.yml
+      - type: AgentSkill
+        url: skills/_index.yml
+      - type: Authentication
+        url: authentication/bargo-congress-trades-api-authentication.yml
+      - type: Documentation
+        url: https://github.com/bargo-ai/bargo-free-api-packages/blob/main/docs/mcp.md
 maintainers:
   - FN: Bargo
     url: https://www.bargo.ai/
+    email: support@bargo.ai
 generated:
   by: apis.io/add
   model: claude-opus-4-8
   confidence: 97
   at: '2026-07-26T21:08:54.376Z'
+common:
+- type: DomainSecurity
+  url: security/bargo-congress-trades-api-domain-security.yml
+- type: AgenticAccess
+  url: agentic-access/bargo-congress-trades-api-agentic-access.yml
+- type: Authentication
+  url: authentication/bargo-congress-trades-api-authentication.yml
+- type: DeveloperPortal
+  url: https://www.bargo.ai/free-apis/congress
+- type: Documentation
+  url: https://www.bargo.ai/free-apis/congress
+- type: APIReference
+  url: https://www.bargo.ai/free-apis/congress/openapi.json
+- type: GettingStarted
+  url: https://www.bargo.ai/free-apis/congress
+- type: SignUp
+  url: https://www.bargo.ai/free-apis/dash
+- type: Support
+  url: https://www.bargo.ai/contact
+- type: TermsOfService
+  url: https://www.bargo.ai/free-apis/terms
+- type: PrivacyPolicy
+  url: https://www.bargo.ai/privacy
+- type: GitHubOrganization
+  url: https://github.com/bargo-ai
+- type: Blog
+  url: https://www.bargo.ai/research
+- type: MCPServer
+  url: mcp/bargo-congress-trades-api-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/bargo-congress-trades-api-tool-crosswalk.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/bargo-congress-trades-api-llms.txt
+- type: WellKnown
+  url: well-known/bargo-congress-trades-api-well-known.yml
+- type: Packages
+  url: packages/bargo-congress-trades-api-packages.yml
+- type: SDKs
+  url: packages/bargo-congress-trades-api-packages.yml
+- type: Conventions
+  url: conventions/bargo-congress-trades-api-conventions.yml
+- type: ErrorCatalog
+  url: errors/bargo-congress-trades-api-problem-types.yml
+- type: DataModel
+  url: data-model/bargo-congress-trades-api-data-model.yml
+- type: RateLimits
+  url: rate-limits/bargo-congress-trades-api-rate-limits.yml
+- type: Lifecycle
+  url: lifecycle/bargo-congress-trades-api-lifecycle.yml
+- type: Conformance
+  url: conformance/bargo-congress-trades-api-conformance.yml
+- type: Components
+  url: components/bargo-congress-trades-api-components.yml
+- type: Examples
+  url: examples/_index.yml
+- type: Overlay
+  url: overlays/bargo-congress-trades-api-congress-trades-overlay.yaml
+x-enrichment:
+  date: '2026-08-09'
+  status: enriched
+  artifacts_added: 26
+  pass: local-v1

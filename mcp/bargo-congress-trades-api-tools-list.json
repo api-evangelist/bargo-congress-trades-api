@@ -1,0 +1,91 @@
+{
+  "result": {
+    "tools": [
+      {
+        "name": "get_congress_trades",
+        "description": "U.S. Congress stock trades from official STOCK Act Periodic Transaction Reports (House Clerk + Senate eFD). Each row: member, chamber, state, ticker, company, type (purchase/sale/exchange), disclosed dollar range, transaction & disclosure dates, AND per-trade performance (price at trade, latest price, % move since). Filter by ticker, member (substring), chamber, or type. Newest transaction first. CAVEAT: PTRs are disclosed up to ~45 days after the trade \u2014 read as 'recent weeks', not real-time.",
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "ticker": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 16
+            },
+            "member": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 40
+            },
+            "chamber": {
+              "type": "string",
+              "enum": [
+                "house",
+                "senate"
+              ]
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "purchase",
+                "sale",
+                "exchange"
+              ]
+            },
+            "limit": {
+              "default": 50,
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200
+            }
+          }
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        }
+      },
+      {
+        "name": "get_congress_member",
+        "description": "All disclosed trades for one member of Congress plus a performance summary (trade count, buys/sells, average per-share return on disclosed buys). Pass the member_slug returned by get_congress_trades (e.g. 'nancy-pelosi').",
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "member_slug": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 80
+            },
+            "limit": {
+              "default": 200,
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 500
+            }
+          },
+          "required": [
+            "member_slug"
+          ]
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        }
+      },
+      {
+        "name": "get_congress_stats",
+        "description": "Aggregate Congress-trading stats: total trades/members/tickers, buy vs sell counts, latest transaction & disclosure dates, and the most-traded tickers over the last 90 days.",
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        }
+      }
+    ]
+  },
+  "jsonrpc": "2.0",
+  "id": 1
+}

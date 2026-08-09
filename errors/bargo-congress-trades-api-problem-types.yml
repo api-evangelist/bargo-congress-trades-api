@@ -1,0 +1,91 @@
+generated: '2026-08-09'
+method: derived
+source: openapi/bargo-congress-trades-api-congress-trades-openapi.yml
+docs: https://www.bargo.ai/free-apis/congress
+format: bare-json-object
+rfc9457: false
+description: >-
+  Error catalog derived from the 4xx responses declared in Bargo's OpenAPI
+  3.0.3 contract, enriched with the handling guidance Bargo publishes in its own
+  agent skill. The API does NOT use RFC 9457 application/problem+json: every
+  error is a plain application/json object with one required string field,
+  `error`. There is no machine-readable error code, no type URI and no
+  field-level detail, so clients must branch on HTTP status alone. No 5xx
+  response is declared anywhere in the contract.
+envelope:
+  media_type: application/json
+  schema: '#/components/schemas/Error'
+  shape: '{"error": "<human-readable message>"}'
+  required: [error]
+  machine_readable_code: false
+problems:
+  - status: 400
+    component: BadRequest
+    title: Invalid filters or pagination depth
+    description: >-
+      Returned when a query filter fails validation (unknown chamber or type
+      enum value, malformed from/to date, limit outside 1..250, ticker or member
+      outside the declared length bounds) or when pagination is requested too
+      deep.
+    remediation: >-
+      Fix the request. Do not retry — the provider's published skill states
+      retries are for transient failures only, never validation errors. Narrow
+      with ticker, member or a from/to date range instead of increasing page.
+    retriable: false
+    source_operations:
+      - openapi/bargo-congress-trades-api-congress-trades-openapi.yml#listCongressTrades
+      - openapi/bargo-congress-trades-api-congress-trades-openapi.yml#listCongressTradesByTicker
+  - status: 401
+    component: InvalidKey
+    title: The supplied API key is invalid or revoked
+    description: >-
+      Returned only when a key IS supplied and is bad. Anonymous requests are
+      valid and are not rejected with 401 — they are served at the lower keyless
+      quota. GET /health accepts no key at all.
+    remediation: >-
+      Rotate or reissue the free key at https://www.bargo.ai/free-apis/dash.
+      Check the credential scope: a free fak_ key authorizes the Congress REST
+      API and the Congress MCP endpoint only; Bargo's main /mcp service requires
+      a separate swmcp_ credential. Do not retry.
+    retriable: false
+    source_operations:
+      - openapi/bargo-congress-trades-api-congress-trades-openapi.yml#listCongressTrades
+      - openapi/bargo-congress-trades-api-congress-trades-openapi.yml#listCongressTradesByTicker
+      - openapi/bargo-congress-trades-api-congress-trades-openapi.yml#listCongressMembers
+      - openapi/bargo-congress-trades-api-congress-trades-openapi.yml#getCongressMember
+      - openapi/bargo-congress-trades-api-congress-trades-openapi.yml#getCongressTradeStats
+  - status: 404
+    component: NotFound
+    title: The requested member was not found
+    description: >-
+      Unknown member_slug. Declared on the member-detail operation only.
+    remediation: >-
+      Discover a valid member_slug from GET /members, or from the member_slug
+      field on any trade row, rather than constructing one from a display name.
+    retriable: false
+    source_operations:
+      - openapi/bargo-congress-trades-api-congress-trades-openapi.yml#getCongressMember
+  - status: 429
+    component: RateLimited
+    title: Daily request or row budget reached
+    description: >-
+      Both budgets are enforced per calendar day: a request count and a row
+      count. Either can trip 429 independently — a small number of large pages
+      can exhaust the row budget while the request budget is still healthy.
+    remediation: >-
+      Read the X-RateLimit-* response headers for the live remaining budget and
+      reset, and treat them as authoritative over any published number. Reduce
+      `limit` to fetch only the rows the task needs. Add a free key to raise the
+      quota from 30 requests / 100 rows per day per IP to 100 requests / 1,000
+      rows per day. Retry only after the window resets.
+    retriable: after-reset
+    source_operations:
+      - openapi/bargo-congress-trades-api-congress-trades-openapi.yml#listCongressTrades
+      - openapi/bargo-congress-trades-api-congress-trades-openapi.yml#listCongressTradesByTicker
+      - openapi/bargo-congress-trades-api-congress-trades-openapi.yml#listCongressMembers
+      - openapi/bargo-congress-trades-api-congress-trades-openapi.yml#getCongressMember
+      - openapi/bargo-congress-trades-api-congress-trades-openapi.yml#getCongressTradeStats
+gaps:
+  - No 5xx response is declared on any operation, so server-fault handling is undocumented.
+  - No stable error code or type URI — clients cannot distinguish causes within a status.
+  - GET /health declares only 200, with no failure mode described.

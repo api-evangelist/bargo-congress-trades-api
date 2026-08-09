@@ -1,0 +1,75 @@
+generated: '2026-08-09'
+method: searched
+source: https://www.bargo.ai/free-apis/congress/embed.js
+docs: https://www.bargo.ai/free-apis/congress
+description: >-
+  Bargo ships one client-side embeddable component for the Congress Trades API:
+  a drop-in "Congress trades" table for a single ticker, rendered entirely in
+  the browser from a one-line script tag. It is distinct from the server-side
+  client libraries in packages/ — it calls the public REST API directly from the
+  page (which is why the API runs open CORS) and requires no key. The component
+  surface below was read from the delivered loader script itself, not from
+  marketing copy.
+families:
+  embed_widget:
+    description: >-
+      A single self-initializing IIFE loader. It scans the DOM for any element
+      carrying a data-congress-ticker attribute, marks it done so it is rendered
+      once, and replaces its contents with a rendered table.
+    loader:
+      url: https://www.bargo.ai/free-apis/congress/embed.js
+      tag: '<script src="https://www.bargo.ai/free-apis/congress/embed.js" async></script>'
+      size_bytes: 3594
+      dependencies: none
+      framework: none
+      auth: none
+      api_called: https://www.bargo.ai/free-apis/congress/v1
+      operation: openapi/bargo-congress-trades-api-congress-trades-openapi.yml#listCongressTradesByTicker
+      request: 'GET /trades/{ticker}?limit=10'
+    components:
+      - name: Congress Trades Table
+        mount: '<div data-congress-ticker="NVDA"></div>'
+        renders: >-
+          Up to 10 most recent disclosed trades for the ticker, as a table of
+          Member / Type / Amount / Date / Since, with BUY and SELL colour-coded
+          and the percentage move since the trade tinted by sign.
+        columns: [member, type, amount_range, transaction_date, perf_pct]
+        empty_state: 'No disclosed trades found.'
+        error_state: 'Could not load Congress trades.'
+        initialization: 'Runs on DOMContentLoaded, or immediately if the document is already parsed.'
+    theming:
+      description: >-
+        A light/dark base is selected first, then any individual colour may be
+        overridden per element with a data attribute taking any CSS colour.
+      attributes:
+        - {name: data-congress-ticker, required: true, description: Stock symbol to render. Also the mount selector.}
+        - {name: data-congress-theme, values: [dark, light], default: dark}
+        - {name: data-congress-bg, description: Background colour.}
+        - {name: data-congress-fg, description: Foreground/text colour.}
+        - {name: data-congress-border, description: Border colour.}
+        - {name: data-congress-muted, description: Secondary text colour.}
+        - {name: data-congress-faint, description: Table header/faint text colour.}
+        - {name: data-congress-buy, description: Colour for purchase rows.}
+        - {name: data-congress-sell, description: Colour for sale rows.}
+      defaults:
+        dark: {bg: '#0d1117', fg: '#ece9e1', border: '#232b38', muted: '#9aa3b2', faint: '#5f6775', buy: '#7CFFB2', sell: '#ff6b6b'}
+        light: {bg: '#ffffff', fg: '#1a1f29', border: '#e3e7ee', muted: '#5f6775', faint: '#9aa3b2', buy: '#0a8f4f', sell: '#d12b2b'}
+    example: |
+      <div data-congress-ticker="NVDA"
+           data-congress-theme="light"
+           data-congress-buy="#0a8f4f"
+           data-congress-sell="#d12b2b"></div>
+      <script src="https://www.bargo.ai/free-apis/congress/embed.js" async></script>
+constraints:
+  attribution_required: true
+  note: >-
+    Bargo's terms require a visible credit linking back to Bargo alongside the
+    widget wherever the data is displayed publicly. The widget consumes the same
+    keyless quota as any other caller, so a high-traffic page will exhaust the
+    anonymous per-IP budget of the VISITOR, not the site owner.
+  terms: https://www.bargo.ai/free-apis/terms
+x-evidence:
+  fetched: '2026-08-09'
+  url: https://www.bargo.ai/free-apis/congress/embed.js
+  http_status: 200
+  content_type: application/javascript;charset=utf-8

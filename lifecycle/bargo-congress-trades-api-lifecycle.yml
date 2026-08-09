@@ -1,0 +1,83 @@
+generated: '2026-08-09'
+method: searched
+source: https://www.bargo.ai/free-apis/congress
+derived_from: openapi/bargo-congress-trades-api-congress-trades-openapi.yml
+description: >-
+  Lifecycle posture for the Bargo Congress Trades API. Versioning is explicit
+  and machine-readable; everything downstream of it is absent. Bargo publishes
+  no status page, no deprecation policy, no SLA and no changelog for this API,
+  which is consistent with a free, no-card offering but leaves an integrator
+  with no advance-notice channel for breaking change. What Bargo does publish
+  instead is a liveness/freshness ENDPOINT, which answers "is the data current"
+  but not "is the service degraded".
+versioning:
+  scheme: uri-path
+  current: v1
+  base: https://www.bargo.ai/free-apis/congress/v1
+  spec_version: 1.0.0
+  docs: https://www.bargo.ai/free-apis/congress
+  policy_published: false
+  note: >-
+    The version segment is in the path; the OpenAPI info.version is 1.0.0. No
+    written policy states what constitutes a breaking change or when v2 would
+    appear.
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: unknown
+  deprecation_header: unknown
+  note: >-
+    No deprecation or sunset policy is published, and no RFC 8594 Sunset or
+    Deprecation header is documented or declared in the contract. Probed
+    https://www.bargo.ai/changelog -> 404.
+deprecated_operations: []
+sla:
+  url: null
+  uptime_target: null
+  published: false
+  note: Free tier, no card required; Bargo publishes no availability commitment.
+status_page: null
+status_page_note: >-
+  No status page exists. Probed https://status.bargo.ai/ (DNS NXDOMAIN) and
+  https://www.bargo.ai/status (404). The closest published signal is the
+  liveness endpoint below, which is a data-freshness check, not an incident feed.
+health_endpoint:
+  url: https://www.bargo.ai/free-apis/congress/v1/health
+  operation: getCongressApiHealth
+  auth: none
+  returns: [status, trades, latest_disclosure, note]
+  note: >-
+    Reports service liveness plus total row count and the most recent disclosure
+    date, so an agent can detect a stale dataset. Declares security: [] — the
+    only operation in the contract that accepts no credential at all.
+changelog:
+  url: null
+  published: false
+  note: >-
+    No dated changelog for the API. Client-library releases are visible as commits
+    and package versions in github.com/bargo-ai/bargo-free-api-packages (both
+    clients at 0.1.0, first published 2026-07-30).
+data_freshness:
+  cadence: continuous ingest from official filings
+  upstream_lag: ~45 days
+  upstream_sources:
+    - https://disclosures-clerk.house.gov/FinancialDisclosure
+    - https://efdsearch.senate.gov/search/
+  free_tier_window: rolling 3 months
+  note: >-
+    STOCK Act Periodic Transaction Reports are legally filed up to roughly 45
+    days after a transaction, so disclosure lag is an upstream property of the
+    data, not a Bargo latency figure.
+maturity:
+  stage: early
+  evidence:
+    - OpenAPI info.version 1.0.0 and a stable /v1 path.
+    - Client libraries at 0.1.0, published 2026-07-30.
+    - PyPI classifier 'Development Status :: 3 - Alpha'.
+x-evidence:
+  fetched: '2026-08-09'
+  probes:
+    - {url: 'https://status.bargo.ai/', http_status: 'DNS NXDOMAIN'}
+    - {url: 'https://www.bargo.ai/status', http_status: 404}
+    - {url: 'https://www.bargo.ai/changelog', http_status: 404}
+    - {url: 'https://www.bargo.ai/free-apis/congress/v1/health', http_status: 200}

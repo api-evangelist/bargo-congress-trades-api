@@ -1,0 +1,89 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+generated: '2026-08-09'
+method: searched
+source: https://www.bargo.ai/free-apis/congress
+provider: Bargo
+providerId: bargo-congress-trades-api
+created: '2026-08-09'
+modified: '2026-08-09'
+tags:
+  - Rate Limiting
+  - Congress
+  - Free API
+description: >-
+  Bargo publishes fair-use daily quotas for the free Congress Trades API on two
+  independent axes — a request count and a row count — enforced per IP when
+  anonymous and per key when a free key is supplied. A second, separate ceiling
+  caps page size. The provider explicitly instructs integrators to read live
+  quota from the X-RateLimit-* response headers and treat those as
+  authoritative over the published figures.
+sources:
+  - https://www.bargo.ai/free-apis/congress
+  - https://www.bargo.ai/llms.txt
+  - https://github.com/bargo-ai/bargo-free-api-packages
+headers:
+  rateLimit: 'X-RateLimit-*'
+  requestId: null
+responseCodes:
+  throttled: 429
+authoritative: response-headers
+limits:
+  - name: Requests (keyless)
+    scope: ip
+    metric: requests_per_day
+    limit: 30
+    timeFrame: day
+    tier: anonymous
+  - name: Rows returned (keyless)
+    scope: ip
+    metric: rows_per_day
+    limit: 100
+    timeFrame: day
+    tier: anonymous
+  - name: Requests (free API key)
+    scope: key
+    metric: requests_per_day
+    limit: 100
+    timeFrame: day
+    tier: free-key
+  - name: Rows returned (free API key)
+    scope: key
+    metric: rows_per_day
+    limit: 1000
+    timeFrame: day
+    tier: free-key
+  - name: Page size (keyless)
+    scope: request
+    metric: rows_per_request
+    limit: 100
+    timeFrame: request
+    tier: anonymous
+  - name: Page size (free API key)
+    scope: request
+    metric: rows_per_request
+    limit: 250
+    timeFrame: request
+    tier: free-key
+tiers:
+  - id: anonymous
+    name: Keyless
+    cost: free
+    signup_required: false
+  - id: free-key
+    name: Free API key
+    cost: free
+    signup_required: true
+    signup: https://www.bargo.ai/free-apis/dash
+    card_required: false
+    key_prefix: fak_
+    also_unlocks: The focused Congress MCP endpoint at /free-apis/congress/mcp.
+data_window:
+  coverage: Rolling last 3 months of trades on the free tier.
+  note: >-
+    A data-scope limit rather than a rate limit, but it bounds what any quota can
+    reach. The full-history dataset is a separate, restricted-access record
+    registered on Zenodo (DOI 10.5281/zenodo.21574840).
+notes:
+  - Both budgets are enforced independently; a few large pages can exhaust the row budget while requests remain.
+  - Bulk redistribution of raw records is prohibited by the free API terms even within quota.
