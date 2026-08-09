@@ -1,0 +1,45 @@
+name: Bargo Congress Trades API
+description: >-
+  A free JSON REST API and hosted MCP server that normalizes U.S. House and Senate STOCK Act securities transaction
+  disclosures, with per-trade performance data. Covers trades, members, and statistics with anonymous read access and an
+  optional free key for higher limits.
+url: https://bargo-congress-trades-api.apievangelist.com/apis.yml
+created: '2026-07-26'
+modified: '2026-07-26'
+specificationVersion: '0.21'
+tags:
+  - congress
+  - finance
+  - stocks
+  - government
+  - stock-act
+  - mcp
+apis:
+  - name: Congress Trades API
+    description: >-
+      REST API for normalized U.S. House and Senate STOCK Act stock trade disclosures, with a hosted MCP server exposing
+      congress tools for agents. Endpoints cover trades, members, and statistics.
+    humanURL: https://www.bargo.ai/free-apis/congress
+    baseURL: https://www.bargo.ai/free-apis/congress/v1
+    tags:
+      - congress
+      - finance
+      - stocks
+      - government
+      - stock-act
+      - mcp
+    properties:
+      - type: OpenAPI
+        url: https://www.bargo.ai/free-apis/congress/openapi.json
+      - type: Documentation
+        url: https://www.bargo.ai/free-apis/congress
+      - type: MCPServer
+        url: https://www.bargo.ai/free-apis/congress/mcp
+maintainers:
+  - FN: Bargo
+    url: https://www.bargo.ai/
+generated:
+  by: apis.io/add
+  model: claude-opus-4-8
+  confidence: 97
+  at: '2026-07-26T21:08:54.376Z'
