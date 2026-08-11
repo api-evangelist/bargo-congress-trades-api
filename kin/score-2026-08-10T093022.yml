@@ -1,0 +1,41 @@
+# Kin Score artifact — bargo-congress-trades-api — 2026-08-10T093022
+# The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
+---
+kin_score:
+  slug: bargo-congress-trades-api
+  schema_version: 0.9.1
+  scored_at: '2026-08-10'
+  run_ts: 2026-08-10T093022
+  composite: 50.1
+  band: developing
+  facets:
+    discoverability: 92.6
+    contract_quality: 53.5
+    governance: 20.8
+    operational_transparency: 36.8
+    developer_ergonomics: 73.9
+    commercial_clarity: 34.2
+  agent_readiness:
+    score: 64.6
+    band: agent-ready
+    dimensions:
+      spec_presence: true
+      agentic_access: true
+      mcp_server: true
+      auth_clarity: true
+      idempotency: false
+      error_semantics: documented
+      openapi_examples: documented
+      rate_limit_signal: verified
+      event_surface_described: false
+      agent_skills: true
+      well_known_catalog: true
+      consent_identity: false
+      agent_card: false
+      dry_run_mode: false
+  regulatory:
+    applies: true
+    regime: Securities & Market Data
+    regime_id: securities_market_data
+    score: 41.7
+    matched_via: tags

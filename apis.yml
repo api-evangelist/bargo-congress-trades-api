@@ -30,74 +30,122 @@ tags:
   - free-api
   - open-data
 apis:
-  - name: Congress Trades API
-    description: >-
-      REST API for normalized U.S. House and Senate STOCK Act stock trade disclosures, with per-trade price
-      performance. Six GET operations over trades, ticker-scoped trades, members, member detail, aggregate
-      statistics and health. JSON only, open CORS, zero-based page pagination, optional API key.
-    humanURL: https://www.bargo.ai/free-apis/congress
-    baseURL: https://www.bargo.ai/free-apis/congress/v1
-    tags:
-      - congress
-      - finance
-      - stocks
-      - government
-      - stock-act
-      - congressional-trading
-      - financial-disclosure
-    properties:
-      - type: OpenAPI
-        url: openapi/bargo-congress-trades-api-congress-trades-openapi.yml
-      - type: OpenAPI
-        url: https://www.bargo.ai/free-apis/congress/openapi.json
-      - type: Documentation
-        url: https://www.bargo.ai/free-apis/congress
-      - type: APIReference
-        url: https://www.bargo.ai/free-apis/congress
-      - type: Authentication
-        url: authentication/bargo-congress-trades-api-authentication.yml
-      - type: Conventions
-        url: conventions/bargo-congress-trades-api-conventions.yml
-      - type: ErrorCatalog
-        url: errors/bargo-congress-trades-api-problem-types.yml
-      - type: DataModel
-        url: data-model/bargo-congress-trades-api-data-model.yml
-      - type: RateLimits
-        url: rate-limits/bargo-congress-trades-api-rate-limits.yml
-      - type: Examples
-        url: examples/_index.yml
-      - type: Overlay
-        url: overlays/bargo-congress-trades-api-congress-trades-overlay.yaml
-      - type: Components
-        url: components/bargo-congress-trades-api-components.yml
-      - type: SDKs
-        url: packages/bargo-congress-trades-api-packages.yml
-  - name: Congress Trades MCP Server
-    description: >-
-      A focused Streamable HTTP MCP server exposing three read-only tools over the Congress Trades dataset —
-      get_congress_trades, get_congress_member and get_congress_stats. The handshake and tools/list are
-      anonymous; tool calls require a free fak_ key via X-Api-Key, Bearer, or a token query parameter. An
-      official Docker image bridges stdio-only MCP clients to it.
-    humanURL: https://www.bargo.ai/free-apis/congress
-    baseURL: https://www.bargo.ai/free-apis/congress/mcp
-    tags:
-      - mcp
-      - agents
-      - congress
-      - stocks
-    properties:
-      - type: MCPServer
-        url: mcp/bargo-congress-trades-api-mcp.yml
-      - type: MCPServer
-        url: https://www.bargo.ai/free-apis/congress/mcp
-      - type: ToolCrosswalk
-        url: mcp/bargo-congress-trades-api-tool-crosswalk.yml
-      - type: AgentSkill
-        url: skills/_index.yml
-      - type: Authentication
-        url: authentication/bargo-congress-trades-api-authentication.yml
-      - type: Documentation
-        url: https://github.com/bargo-ai/bargo-free-api-packages/blob/main/docs/mcp.md
+- name: Congress Trades MCP Server
+  description: >-
+    A focused Streamable HTTP MCP server exposing three read-only tools over the Congress Trades dataset
+    — get_congress_trades, get_congress_member and get_congress_stats. The handshake and tools/list are
+    anonymous; tool calls require a free fak_ key via X-Api-Key, Bearer, or a token query parameter. An
+    official Docker image bridges stdio-only MCP clients to it.
+  humanURL: https://www.bargo.ai/free-apis/congress
+  baseURL: https://www.bargo.ai/free-apis/congress/mcp
+  tags:
+  - mcp
+  - agents
+  - congress
+  - stocks
+  properties:
+  - type: MCPServer
+    url: mcp/bargo-congress-trades-api-mcp.yml
+  - type: MCPServer
+    url: https://www.bargo.ai/free-apis/congress/mcp
+  - type: ToolCrosswalk
+    url: mcp/bargo-congress-trades-api-tool-crosswalk.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: Authentication
+    url: authentication/bargo-congress-trades-api-authentication.yml
+  - type: Documentation
+    url: https://github.com/bargo-ai/bargo-free-api-packages/blob/main/docs/mcp.md
+- aid: bargo-congress-trades-api:bargo-congress-trades-api-members-api
+  name: Bargo Congress Trades API Members API
+  description: Members of Congress and their disclosure histories.
+  humanURL: https://www.bargo.ai/free-apis/congress
+  baseURL: https://www.bargo.ai/free-apis/congress/v1
+  tags:
+  - Members
+  properties:
+  - type: OpenAPI
+    url: openapi/bargo-congress-trades-api-members-api-openapi.yml
+  - type: Documentation
+    url: https://www.bargo.ai/free-apis/congress
+  - type: APIReference
+    url: https://www.bargo.ai/free-apis/congress
+  - type: Authentication
+    url: authentication/bargo-congress-trades-api-authentication.yml
+  - type: Conventions
+    url: conventions/bargo-congress-trades-api-conventions.yml
+  - type: ErrorCatalog
+    url: errors/bargo-congress-trades-api-problem-types.yml
+  - type: DataModel
+    url: data-model/bargo-congress-trades-api-data-model.yml
+  - type: RateLimits
+    url: rate-limits/bargo-congress-trades-api-rate-limits.yml
+  - type: Examples
+    url: examples/_index.yml
+  - type: Components
+    url: components/bargo-congress-trades-api-components.yml
+  - type: SDKs
+    url: packages/bargo-congress-trades-api-packages.yml
+- aid: bargo-congress-trades-api:bargo-congress-trades-api-statistics-api
+  name: Bargo Congress Trades API Statistics API
+  description: Aggregate dataset statistics and freshness.
+  humanURL: https://www.bargo.ai/free-apis/congress
+  baseURL: https://www.bargo.ai/free-apis/congress/v1
+  tags:
+  - Statistics
+  properties:
+  - type: OpenAPI
+    url: openapi/bargo-congress-trades-api-statistics-api-openapi.yml
+  - type: Documentation
+    url: https://www.bargo.ai/free-apis/congress
+  - type: APIReference
+    url: https://www.bargo.ai/free-apis/congress
+  - type: Authentication
+    url: authentication/bargo-congress-trades-api-authentication.yml
+  - type: Conventions
+    url: conventions/bargo-congress-trades-api-conventions.yml
+  - type: ErrorCatalog
+    url: errors/bargo-congress-trades-api-problem-types.yml
+  - type: DataModel
+    url: data-model/bargo-congress-trades-api-data-model.yml
+  - type: RateLimits
+    url: rate-limits/bargo-congress-trades-api-rate-limits.yml
+  - type: Examples
+    url: examples/_index.yml
+  - type: Components
+    url: components/bargo-congress-trades-api-components.yml
+  - type: SDKs
+    url: packages/bargo-congress-trades-api-packages.yml
+- aid: bargo-congress-trades-api:bargo-congress-trades-api-trades-api
+  name: Bargo Congress Trades API Trades API
+  description: Normalized House and Senate securities transactions.
+  humanURL: https://www.bargo.ai/free-apis/congress
+  baseURL: https://www.bargo.ai/free-apis/congress/v1
+  tags:
+  - Trades
+  properties:
+  - type: OpenAPI
+    url: openapi/bargo-congress-trades-api-trades-api-openapi.yml
+  - type: Documentation
+    url: https://www.bargo.ai/free-apis/congress
+  - type: APIReference
+    url: https://www.bargo.ai/free-apis/congress
+  - type: Authentication
+    url: authentication/bargo-congress-trades-api-authentication.yml
+  - type: Conventions
+    url: conventions/bargo-congress-trades-api-conventions.yml
+  - type: ErrorCatalog
+    url: errors/bargo-congress-trades-api-problem-types.yml
+  - type: DataModel
+    url: data-model/bargo-congress-trades-api-data-model.yml
+  - type: RateLimits
+    url: rate-limits/bargo-congress-trades-api-rate-limits.yml
+  - type: Examples
+    url: examples/_index.yml
+  - type: Components
+    url: components/bargo-congress-trades-api-components.yml
+  - type: SDKs
+    url: packages/bargo-congress-trades-api-packages.yml
 maintainers:
   - FN: Bargo
     url: https://www.bargo.ai/
