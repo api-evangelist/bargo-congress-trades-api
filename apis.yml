@@ -12,7 +12,7 @@ description: >-
   focused three-tool MCP server for agents. Open CORS, an embeddable browser widget, and first-party
   JavaScript and Python clients. Attribution is required; bulk redistribution of raw records is not permitted.
 image: https://www.bargo.ai/favicon.png
-url: https://bargo-congress-trades-api.apievangelist.com/apis.yml
+url: https://raw.githubusercontent.com/api-evangelist/bargo-congress-trades-api/refs/heads/main/apis.yml
 created: '2026-07-26'
 modified: '2026-08-09'
 specificationVersion: '0.21'
