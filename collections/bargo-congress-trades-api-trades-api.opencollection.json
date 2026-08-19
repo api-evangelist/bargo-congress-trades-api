@@ -1,0 +1,122 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bargo Congress Trades API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Trades",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List congressional trades",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.bargo.ai/free-apis/congress/v1/trades",
+            "params": [
+              {
+                "name": "ticker",
+                "value": "",
+                "type": "query",
+                "description": "Exact stock ticker symbol, case-insensitive."
+              },
+              {
+                "name": "member",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive partial member-name match."
+              },
+              {
+                "name": "chamber",
+                "value": "",
+                "type": "query",
+                "description": "Legislative chamber."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Normalized transaction classification."
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Earliest transaction date, inclusive."
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "Latest transaction date, inclusive."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Rows per page. Maximum 100 without a key and 250 with a free key."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Zero-based page number. Narrow broad queries with ticker, member, or date filters. Data covers the last 3 months."
+              }
+            ]
+          },
+          "docs": "Returns House and Senate securities transactions from the last 3 months, newest transaction first. Use ticker, member, or date filters to narrow results."
+        },
+        {
+          "info": {
+            "name": "List trades for a ticker",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.bargo.ai/free-apis/congress/v1/trades/:ticker",
+            "params": [
+              {
+                "name": "ticker",
+                "value": "",
+                "type": "path",
+                "description": "Stock ticker symbol."
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Earliest transaction date, inclusive."
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "Latest transaction date, inclusive."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Rows per page. Maximum 100 without a key and 250 with a free key."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Zero-based page number. Narrow broad queries with ticker, member, or date filters. Data covers the last 3 months."
+              }
+            ]
+          },
+          "docs": "Returns all available congressional disclosures for one stock symbol, newest transaction first."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

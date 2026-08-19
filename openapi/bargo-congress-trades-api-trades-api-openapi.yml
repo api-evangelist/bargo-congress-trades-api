@@ -1,0 +1,389 @@
+openapi: 3.2.0
+info:
+  title: Bargo Congress Trades API
+  version: 1.0.0
+  description: Independent, unofficial API for normalized U.S. House and Senate STOCK Act securities transaction disclosures. Includes member, security, transaction, filing, value-range, and price-performance fields. Disclosures can be filed up to approximately 45 days after a transaction; this is not a real-time trading feed or investment advice.
+  termsOfService: https://www.bargo.ai/free-apis/terms
+  license:
+    name: Bargo Free API Terms
+    url: https://www.bargo.ai/free-apis/terms
+  contact:
+    name: Bargo
+    url: https://www.bargo.ai/contact
+servers:
+- url: https://www.bargo.ai/free-apis/congress/v1
+  description: Production
+security:
+- {}
+- ApiKeyHeader: []
+- BearerAuth: []
+- QueryToken: []
+tags:
+- name: Trades
+  description: Normalized House and Senate securities transactions.
+paths:
+  /trades:
+    get:
+      tags:
+      - Trades
+      summary: List congressional trades
+      description: Returns House and Senate securities transactions from the last 3 months, newest transaction first. Use ticker, member, or date filters to narrow results.
+      operationId: listCongressTrades
+      parameters:
+      - $ref: '#/components/parameters/TickerQuery'
+      - $ref: '#/components/parameters/MemberQuery'
+      - $ref: '#/components/parameters/ChamberQuery'
+      - $ref: '#/components/parameters/TransactionTypeQuery'
+      - $ref: '#/components/parameters/FromDateQuery'
+      - $ref: '#/components/parameters/ToDateQuery'
+      - $ref: '#/components/parameters/TradeLimitQuery'
+      - $ref: '#/components/parameters/PageQuery'
+      responses:
+        '200':
+          $ref: '#/components/responses/TradeList'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/InvalidKey'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /trades/{ticker}:
+    get:
+      tags:
+      - Trades
+      summary: List trades for a ticker
+      description: Returns all available congressional disclosures for one stock symbol, newest transaction first.
+      operationId: listCongressTradesByTicker
+      parameters:
+      - $ref: '#/components/parameters/TickerPath'
+      - $ref: '#/components/parameters/FromDateQuery'
+      - $ref: '#/components/parameters/ToDateQuery'
+      - $ref: '#/components/parameters/TradeLimitQuery'
+      - $ref: '#/components/parameters/PageQuery'
+      responses:
+        '200':
+          $ref: '#/components/responses/TradeList'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/InvalidKey'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  schemas:
+    Trade:
+      type: object
+      required:
+      - member
+      - member_slug
+      - chamber
+      - state
+      - ticker
+      - asset
+      - type
+      - amount_low
+      - amount_high
+      - amount_range
+      - transaction_date
+      - disclosure_date
+      - est_price
+      - recent_price
+      - recent_price_date
+      - perf_pct
+      - realized_return_pct
+      - outcome
+      - filing_portal
+      properties:
+        member:
+          type:
+          - string
+          - 'null'
+          example: Nancy Pelosi
+        member_slug:
+          type:
+          - string
+          - 'null'
+          example: nancy-pelosi
+        chamber:
+          type:
+          - string
+          - 'null'
+          enum:
+          - house
+          - senate
+          example: house
+        state:
+          type:
+          - string
+          - 'null'
+          example: CA11
+        ticker:
+          type:
+          - string
+          - 'null'
+          example: NVDA
+        asset:
+          type:
+          - string
+          - 'null'
+          example: NVIDIA Corporation - Common Stock
+        type:
+          type:
+          - string
+          - 'null'
+          enum:
+          - purchase
+          - sale
+          - exchange
+          example: purchase
+        amount_low:
+          type:
+          - number
+          - 'null'
+          example: 1001
+        amount_high:
+          type:
+          - number
+          - 'null'
+          example: 15000
+        amount_range:
+          type:
+          - string
+          - 'null'
+          example: $1,001 - $15,000
+        transaction_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          example: '2026-01-16'
+        disclosure_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          example: '2026-01-23'
+        est_price:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Estimated per-share price near the transaction date.
+          example: 186.23
+        recent_price:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Most recently tracked closing price.
+          example: 211.8
+        recent_price_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          example: '2026-07-14'
+        perf_pct:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: Per-share percentage price movement since the transaction.
+          example: 13.73
+        realized_return_pct:
+          type:
+          - number
+          - 'null'
+          format: double
+          example: 8.42
+        outcome:
+          type:
+          - string
+          - 'null'
+          example: gain
+        filing_portal:
+          type: string
+          format: uri
+          example: https://disclosures-clerk.house.gov/FinancialDisclosure
+    TradePage:
+      type: object
+      required:
+      - trades
+      - page
+      - limit
+      - count
+      properties:
+        trades:
+          type: array
+          items:
+            $ref: '#/components/schemas/Trade'
+        page:
+          type: integer
+          minimum: 0
+          example: 0
+        limit:
+          type: integer
+          minimum: 1
+          example: 100
+        count:
+          type: integer
+          minimum: 0
+          example: 100
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: string
+  responses:
+    RateLimited:
+      description: Daily request or row budget reached.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TradeList:
+      description: A page of normalized congressional trades.
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/RateLimit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/RateLimitRemaining'
+        X-RateLimit-Rows-Limit:
+          $ref: '#/components/headers/RowLimit'
+        X-RateLimit-Rows-Remaining:
+          $ref: '#/components/headers/RowLimitRemaining'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TradePage'
+    BadRequest:
+      description: Invalid filters or pagination depth.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InvalidKey:
+      description: The supplied API key is invalid or revoked.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  headers:
+    RateLimit:
+      description: Daily request limit for the current caller.
+      schema:
+        type: integer
+    RateLimitRemaining:
+      description: Daily requests remaining for the current caller.
+      schema:
+        type: integer
+    RowLimitRemaining:
+      description: Daily rows remaining for the current caller.
+      schema:
+        type: integer
+    RowLimit:
+      description: Daily row limit for the current caller.
+      schema:
+        type: integer
+  parameters:
+    ToDateQuery:
+      name: to
+      in: query
+      description: Latest transaction date, inclusive.
+      schema:
+        type: string
+        format: date
+        example: '2026-12-31'
+    TickerQuery:
+      name: ticker
+      in: query
+      description: Exact stock ticker symbol, case-insensitive.
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 16
+        example: NVDA
+    PageQuery:
+      name: page
+      in: query
+      description: Zero-based page number. Narrow broad queries with ticker, member, or date filters. Data covers the last 3 months.
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    FromDateQuery:
+      name: from
+      in: query
+      description: Earliest transaction date, inclusive.
+      schema:
+        type: string
+        format: date
+        example: '2026-01-01'
+    TickerPath:
+      name: ticker
+      in: path
+      required: true
+      description: Stock ticker symbol.
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 16
+        example: NVDA
+    ChamberQuery:
+      name: chamber
+      in: query
+      description: Legislative chamber.
+      schema:
+        type: string
+        enum:
+        - house
+        - senate
+    TransactionTypeQuery:
+      name: type
+      in: query
+      description: Normalized transaction classification.
+      schema:
+        type: string
+        enum:
+        - purchase
+        - sale
+        - exchange
+    TradeLimitQuery:
+      name: limit
+      in: query
+      description: Rows per page. Maximum 100 without a key and 250 with a free key.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 100
+    MemberQuery:
+      name: member
+      in: query
+      description: Case-insensitive partial member-name match.
+      schema:
+        type: string
+        minLength: 2
+        maxLength: 80
+        example: Pelosi
+  securitySchemes:
+    ApiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: Optional free Bargo API key.
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Bargo API key
+      description: Optional free Bargo API key as a Bearer token.
+    QueryToken:
+      type: apiKey
+      in: query
+      name: token
+      description: Optional free Bargo API key for clients that cannot set headers.
+externalDocs:
+  description: Congress Trades API documentation
+  url: https://www.bargo.ai/free-apis/congress

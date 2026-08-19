@@ -1,0 +1,218 @@
+openapi: 3.2.0
+info:
+  title: Bargo Congress Trades Statistics API
+  version: 1.0.0
+  description: Independent, unofficial API for normalized U.S. House and Senate STOCK Act securities transaction disclosures. Includes member, security, transaction, filing, value-range, and price-performance fields. Disclosures can be filed up to approximately 45 days after a transaction; this is not a real-time trading feed or investment advice.
+  termsOfService: https://www.bargo.ai/free-apis/terms
+  license:
+    name: Bargo Free API Terms
+    url: https://www.bargo.ai/free-apis/terms
+  contact:
+    name: Bargo
+    url: https://www.bargo.ai/contact
+servers:
+- url: https://www.bargo.ai/free-apis/congress/v1
+  description: Production
+security:
+- {}
+- ApiKeyHeader: []
+- BearerAuth: []
+- QueryToken: []
+tags:
+- name: Statistics
+  description: Aggregate dataset statistics and freshness.
+paths:
+  /stats:
+    get:
+      tags:
+      - Statistics
+      summary: Get aggregate trading statistics
+      description: Returns dataset totals, latest transaction and disclosure dates, and the most-traded tickers over the last 90 days.
+      operationId: getCongressTradeStats
+      responses:
+        '200':
+          $ref: '#/components/responses/Stats'
+        '401':
+          $ref: '#/components/responses/InvalidKey'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /health:
+    get:
+      tags:
+      - Statistics
+      summary: Check API and dataset freshness
+      operationId: getCongressApiHealth
+      security: []
+      responses:
+        '200':
+          description: API health and data freshness.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+components:
+  headers:
+    RowLimitRemaining:
+      description: Daily rows remaining for the current caller.
+      schema:
+        type: integer
+    RowLimit:
+      description: Daily row limit for the current caller.
+      schema:
+        type: integer
+    RateLimit:
+      description: Daily request limit for the current caller.
+      schema:
+        type: integer
+    RateLimitRemaining:
+      description: Daily requests remaining for the current caller.
+      schema:
+        type: integer
+  schemas:
+    Stats:
+      type: object
+      required:
+      - totals
+      - latest_transaction
+      - latest_disclosure
+      - most_traded_90d
+      properties:
+        totals:
+          $ref: '#/components/schemas/Totals'
+        latest_transaction:
+          type:
+          - string
+          - 'null'
+          format: date
+        latest_disclosure:
+          type:
+          - string
+          - 'null'
+          format: date
+        most_traded_90d:
+          type: array
+          items:
+            $ref: '#/components/schemas/TradedTicker'
+    Health:
+      type: object
+      required:
+      - status
+      - trades
+      - latest_disclosure
+      - note
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+        trades:
+          type: integer
+          minimum: 0
+        latest_disclosure:
+          type:
+          - string
+          - 'null'
+          format: date
+        note:
+          type: string
+    Totals:
+      type: object
+      required:
+      - trades
+      - members
+      - tickers
+      - buys
+      - sells
+      properties:
+        trades:
+          type: integer
+          minimum: 0
+        members:
+          type: integer
+          minimum: 0
+        tickers:
+          type: integer
+          minimum: 0
+        buys:
+          type: integer
+          minimum: 0
+        sells:
+          type: integer
+          minimum: 0
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: string
+    TradedTicker:
+      type: object
+      required:
+      - ticker
+      - trades
+      - buys
+      - sells
+      - members
+      properties:
+        ticker:
+          type: string
+        trades:
+          type: integer
+          minimum: 0
+        buys:
+          type: integer
+          minimum: 0
+        sells:
+          type: integer
+          minimum: 0
+        members:
+          type: integer
+          minimum: 0
+  responses:
+    RateLimited:
+      description: Daily request or row budget reached.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Stats:
+      description: Aggregate dataset statistics.
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/RateLimit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/RateLimitRemaining'
+        X-RateLimit-Rows-Limit:
+          $ref: '#/components/headers/RowLimit'
+        X-RateLimit-Rows-Remaining:
+          $ref: '#/components/headers/RowLimitRemaining'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Stats'
+    InvalidKey:
+      description: The supplied API key is invalid or revoked.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    ApiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: Optional free Bargo API key.
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Bargo API key
+      description: Optional free Bargo API key as a Bearer token.
+    QueryToken:
+      type: apiKey
+      in: query
+      name: token
+      description: Optional free Bargo API key for clients that cannot set headers.
+externalDocs:
+  description: Congress Trades API documentation
+  url: https://www.bargo.ai/free-apis/congress

@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bargo Congress Trades Statistics API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Statistics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get aggregate trading statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.bargo.ai/free-apis/congress/v1/stats"
+          },
+          "docs": "Returns dataset totals, latest transaction and disclosure dates, and the most-traded tickers over the last 90 days."
+        },
+        {
+          "info": {
+            "name": "Check API and dataset freshness",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.bargo.ai/free-apis/congress/v1/health"
+          },
+          "docs": "Check API and dataset freshness"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

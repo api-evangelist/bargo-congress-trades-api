@@ -1,0 +1,62 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bargo Congress Trades Members API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Members",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List members of Congress",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.bargo.ai/free-apis/congress/v1/members",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of members."
+              }
+            ]
+          },
+          "docs": "Returns members ranked by disclosed trade count, with purchase, sale, and last-trade statistics."
+        },
+        {
+          "info": {
+            "name": "Get one member's disclosures",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.bargo.ai/free-apis/congress/v1/members/:member_slug",
+            "params": [
+              {
+                "name": "member_slug",
+                "value": "",
+                "type": "path",
+                "description": "Stable member slug returned by the trades or members endpoints."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Member trade rows. Maximum 100 without a key and 250 with a free key."
+              }
+            ]
+          },
+          "docs": "Returns a member profile, aggregate trading statistics, and the member's trades from the last 3 months."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

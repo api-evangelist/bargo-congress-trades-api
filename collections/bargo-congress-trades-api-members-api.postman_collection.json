@@ -1,0 +1,492 @@
+{
+  "item": [
+    {
+      "id": "bcb5ed48-aecc-47be-8322-3262cdcf7cc1",
+      "name": "Members",
+      "description": {
+        "content": "Members of Congress and their disclosure histories.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "60d5f2f8-8517-4794-b530-5271286a185c",
+          "name": "List members of Congress",
+          "request": {
+            "name": "List members of Congress",
+            "description": {
+              "content": "Returns members ranked by disclosed trade count, with purchase, sale, and last-trade statistics.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "members"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100",
+                  "description": "Maximum number of members."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "673d0ffe-7bc0-41d2-916e-196d65044483",
+              "name": "Members ranked by disclosed trade count.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Daily request limit for the current caller.",
+                  "key": "X-RateLimit-Limit",
+                  "value": "2925"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily requests remaining for the current caller.",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "2925"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily row limit for the current caller.",
+                  "key": "X-RateLimit-Rows-Limit",
+                  "value": "2925"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily rows remaining for the current caller.",
+                  "key": "X-RateLimit-Rows-Remaining",
+                  "value": "2925"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"members\": [\n    {\n      \"member\": \"Nancy Pelosi\",\n      \"member_slug\": \"nancy-pelosi\",\n      \"chamber\": \"senate\",\n      \"state\": \"CA11\",\n      \"trades\": 1678,\n      \"buys\": 2142,\n      \"sells\": 3033,\n      \"last_trade\": \"2023-12-01\"\n    },\n    {\n      \"member\": \"Nancy Pelosi\",\n      \"member_slug\": \"nancy-pelosi\",\n      \"chamber\": \"house\",\n      \"state\": \"CA11\",\n      \"trades\": 6376,\n      \"buys\": 7600,\n      \"sells\": 5537,\n      \"last_trade\": null\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "abbbcc6c-4fc5-4420-8fb9-3977d6729b99",
+              "name": "The supplied API key is invalid or revoked.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b7308b0b-eec9-4685-a5fc-a8dc24618e78",
+              "name": "Daily request or row budget reached.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0f1be483-f83a-4f5d-8456-ca490d79c976",
+          "name": "Get one member's disclosures",
+          "request": {
+            "name": "Get one member's disclosures",
+            "description": {
+              "content": "Returns a member profile, aggregate trading statistics, and the member's trades from the last 3 months.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "members",
+                ":member_slug"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100",
+                  "description": "Member trade rows. Maximum 100 without a key and 250 with a free key."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "member_slug",
+                  "description": "(Required) Stable member slug returned by the trades or members endpoints."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a29f2866-32c4-4341-899b-87eb8469b8b6",
+              "name": "Member profile, statistics, and disclosures.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "members",
+                    ":member_slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "member_slug",
+                      "description": "(Required) Stable member slug returned by the trades or members endpoints."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Daily request limit for the current caller.",
+                  "key": "X-RateLimit-Limit",
+                  "value": "2925"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily requests remaining for the current caller.",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "2925"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily row limit for the current caller.",
+                  "key": "X-RateLimit-Rows-Limit",
+                  "value": "2925"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily rows remaining for the current caller.",
+                  "key": "X-RateLimit-Rows-Remaining",
+                  "value": "2925"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"member\": \"string\",\n  \"member_slug\": \"string\",\n  \"chamber\": \"senate\",\n  \"state\": null,\n  \"stats\": {\n    \"trades\": 1132,\n    \"buys\": 9069,\n    \"sells\": 8848,\n    \"last_trade\": null,\n    \"avg_buy_perf_pct\": 2039.256897127073\n  },\n  \"trades\": [\n    {\n      \"member\": \"Nancy Pelosi\",\n      \"member_slug\": \"nancy-pelosi\",\n      \"chamber\": \"house\",\n      \"state\": \"CA11\",\n      \"ticker\": \"NVDA\",\n      \"asset\": \"NVIDIA Corporation - Common Stock\",\n      \"type\": \"purchase\",\n      \"amount_low\": 1001,\n      \"amount_high\": 15000,\n      \"amount_range\": \"$1,001 - $15,000\",\n      \"transaction_date\": \"2026-01-16\",\n      \"disclosure_date\": \"2026-01-23\",\n      \"est_price\": 186.23,\n      \"recent_price\": 211.8,\n      \"recent_price_date\": \"2026-07-14\",\n      \"perf_pct\": 13.73,\n      \"realized_return_pct\": 8.42,\n      \"outcome\": \"gain\",\n      \"filing_portal\": \"https://disclosures-clerk.house.gov/FinancialDisclosure\"\n    },\n    {\n      \"member\": \"Nancy Pelosi\",\n      \"member_slug\": \"nancy-pelosi\",\n      \"chamber\": \"house\",\n      \"state\": \"CA11\",\n      \"ticker\": \"NVDA\",\n      \"asset\": \"NVIDIA Corporation - Common Stock\",\n      \"type\": \"purchase\",\n      \"amount_low\": 1001,\n      \"amount_high\": 15000,\n      \"amount_range\": \"$1,001 - $15,000\",\n      \"transaction_date\": \"2026-01-16\",\n      \"disclosure_date\": \"2026-01-23\",\n      \"est_price\": 186.23,\n      \"recent_price\": 211.8,\n      \"recent_price_date\": \"2026-07-14\",\n      \"perf_pct\": 13.73,\n      \"realized_return_pct\": 8.42,\n      \"outcome\": \"gain\",\n      \"filing_portal\": \"https://disclosures-clerk.house.gov/FinancialDisclosure\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eb499060-6062-4606-a736-f2efbb8379bb",
+              "name": "The supplied API key is invalid or revoked.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "members",
+                    ":member_slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "member_slug",
+                      "description": "(Required) Stable member slug returned by the trades or members endpoints."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dd9e3714-56f7-49e5-8aa6-7640ce75d255",
+              "name": "The requested member was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "members",
+                    ":member_slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "member_slug",
+                      "description": "(Required) Stable member slug returned by the trades or members endpoints."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "047758e4-448a-4151-9e3a-27978d404d22",
+              "name": "Daily request or row budget reached.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "members",
+                    ":member_slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "member_slug",
+                      "description": "(Required) Stable member slug returned by the trades or members endpoints."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://www.bargo.ai/free-apis/congress/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "noauth"
+  },
+  "info": {
+    "_postman_id": "f4ef17d1-d2ed-481b-9c41-7cb8e6cdccfa",
+    "name": "Bargo Congress Trades Members API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Independent, unofficial API for normalized U.S. House and Senate STOCK Act securities transaction disclosures. Includes member, security, transaction, filing, value-range, and price-performance fields. Disclosures can be filed up to approximately 45 days after a transaction; this is not a real-time trading feed or investment advice.\n\nContact Support:\n Name: Bargo",
+      "type": "text/plain"
+    }
+  }
+}

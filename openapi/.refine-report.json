@@ -1,0 +1,23 @@
+{
+  "provider": "bargo-congress-trades-api",
+  "sources": [
+    "bargo-congress-trades-api-members-api-openapi.yml",
+    "bargo-congress-trades-api-statistics-api-openapi.yml",
+    "bargo-congress-trades-api-trades-api-openapi.yml"
+  ],
+  "outputs": [
+    "bargo-congress-trades-api-members-api-openapi.yml",
+    "bargo-congress-trades-api-statistics-api-openapi.yml",
+    "bargo-congress-trades-api-trades-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "bargo-congress-trades-api-members-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "bargo-congress-trades-api-statistics-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "bargo-congress-trades-api-trades-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": []
+}

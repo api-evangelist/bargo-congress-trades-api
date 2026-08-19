@@ -1,0 +1,266 @@
+{
+  "item": [
+    {
+      "id": "33d1f952-99d9-4f18-81ef-5408942aef85",
+      "name": "Statistics",
+      "description": {
+        "content": "Aggregate dataset statistics and freshness.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "edbca7e2-967c-465a-b5ee-36e3366007de",
+          "name": "Get aggregate trading statistics",
+          "request": {
+            "name": "Get aggregate trading statistics",
+            "description": {
+              "content": "Returns dataset totals, latest transaction and disclosure dates, and the most-traded tickers over the last 90 days.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "af41520e-56b1-4a7e-94a7-77b6b56011f4",
+              "name": "Aggregate dataset statistics.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Daily request limit for the current caller.",
+                  "key": "X-RateLimit-Limit",
+                  "value": "5250"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily requests remaining for the current caller.",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "5250"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily row limit for the current caller.",
+                  "key": "X-RateLimit-Rows-Limit",
+                  "value": "5250"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily rows remaining for the current caller.",
+                  "key": "X-RateLimit-Rows-Remaining",
+                  "value": "5250"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"totals\": {\n    \"trades\": 3959,\n    \"members\": 1215,\n    \"tickers\": 5333,\n    \"buys\": 6109,\n    \"sells\": 3459\n  },\n  \"latest_transaction\": \"2009-11-07\",\n  \"latest_disclosure\": \"1977-04-10\",\n  \"most_traded_90d\": [\n    {\n      \"ticker\": \"string\",\n      \"trades\": 48,\n      \"buys\": 588,\n      \"sells\": 1998,\n      \"members\": 5702\n    },\n    {\n      \"ticker\": \"string\",\n      \"trades\": 4404,\n      \"buys\": 5387,\n      \"sells\": 5434,\n      \"members\": 836\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "26c9d36a-a93c-4a96-b8bb-d8ebd433dd34",
+              "name": "The supplied API key is invalid or revoked.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "913835e2-abbe-4d9b-bb51-4693f7547e12",
+              "name": "Daily request or row budget reached.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "29929c70-4119-4f8a-b74d-a207cc23a173",
+          "name": "Check API and dataset freshness",
+          "request": {
+            "name": "Check API and dataset freshness",
+            "description": {},
+            "url": {
+              "path": [
+                "health"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "77a79883-996f-4e01-8153-8ee92589f7de",
+              "name": "API health and data freshness.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "health"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ok\",\n  \"trades\": 615,\n  \"latest_disclosure\": \"1947-03-15\",\n  \"note\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://www.bargo.ai/free-apis/congress/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "noauth"
+  },
+  "info": {
+    "_postman_id": "7f7ec36f-e0ef-4500-b3f1-167861319ed1",
+    "name": "Bargo Congress Trades Statistics API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Independent, unofficial API for normalized U.S. House and Senate STOCK Act securities transaction disclosures. Includes member, security, transaction, filing, value-range, and price-performance fields. Disclosures can be filed up to approximately 45 days after a transaction; this is not a real-time trading feed or investment advice.\n\nContact Support:\n Name: Bargo",
+      "type": "text/plain"
+    }
+  }
+}

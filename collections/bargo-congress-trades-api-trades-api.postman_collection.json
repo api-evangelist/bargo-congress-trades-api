@@ -1,0 +1,752 @@
+{
+  "item": [
+    {
+      "id": "cd5109a3-9cf1-4482-adb5-a3eb80c666f7",
+      "name": "Trades",
+      "description": {
+        "content": "Normalized House and Senate securities transactions.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "297e5cdc-1505-4cc6-92ea-6a46bea08614",
+          "name": "List congressional trades",
+          "request": {
+            "name": "List congressional trades",
+            "description": {
+              "content": "Returns House and Senate securities transactions from the last 3 months, newest transaction first. Use ticker, member, or date filters to narrow results.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "trades"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ticker",
+                  "value": "<string>",
+                  "description": "Exact stock ticker symbol, case-insensitive."
+                },
+                {
+                  "disabled": false,
+                  "key": "member",
+                  "value": "<string>",
+                  "description": "Case-insensitive partial member-name match."
+                },
+                {
+                  "disabled": false,
+                  "key": "chamber",
+                  "value": "<string>",
+                  "description": "Legislative chamber."
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Normalized transaction classification."
+                },
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<date>",
+                  "description": "Earliest transaction date, inclusive."
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<date>",
+                  "description": "Latest transaction date, inclusive."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100",
+                  "description": "Rows per page. Maximum 100 without a key and 250 with a free key."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "0",
+                  "description": "Zero-based page number. Narrow broad queries with ticker, member, or date filters. Data covers the last 3 months."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "12939cfb-5f96-43ec-b5b3-93d2660e91c3",
+              "name": "A page of normalized congressional trades.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trades"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ticker",
+                      "value": "NVDA"
+                    },
+                    {
+                      "key": "member",
+                      "value": "Pelosi"
+                    },
+                    {
+                      "key": "chamber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "2026-01-01"
+                    },
+                    {
+                      "key": "to",
+                      "value": "2026-12-31"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Daily request limit for the current caller.",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9049"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily requests remaining for the current caller.",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9049"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily row limit for the current caller.",
+                  "key": "X-RateLimit-Rows-Limit",
+                  "value": "9049"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily rows remaining for the current caller.",
+                  "key": "X-RateLimit-Rows-Remaining",
+                  "value": "9049"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"trades\": [\n    {\n      \"member\": \"Nancy Pelosi\",\n      \"member_slug\": \"nancy-pelosi\",\n      \"chamber\": \"house\",\n      \"state\": \"CA11\",\n      \"ticker\": \"NVDA\",\n      \"asset\": \"NVIDIA Corporation - Common Stock\",\n      \"type\": \"purchase\",\n      \"amount_low\": 1001,\n      \"amount_high\": 15000,\n      \"amount_range\": \"$1,001 - $15,000\",\n      \"transaction_date\": \"2026-01-16\",\n      \"disclosure_date\": \"2026-01-23\",\n      \"est_price\": 186.23,\n      \"recent_price\": 211.8,\n      \"recent_price_date\": \"2026-07-14\",\n      \"perf_pct\": 13.73,\n      \"realized_return_pct\": 8.42,\n      \"outcome\": \"gain\",\n      \"filing_portal\": \"https://disclosures-clerk.house.gov/FinancialDisclosure\"\n    },\n    {\n      \"member\": \"Nancy Pelosi\",\n      \"member_slug\": \"nancy-pelosi\",\n      \"chamber\": \"house\",\n      \"state\": \"CA11\",\n      \"ticker\": \"NVDA\",\n      \"asset\": \"NVIDIA Corporation - Common Stock\",\n      \"type\": \"purchase\",\n      \"amount_low\": 1001,\n      \"amount_high\": 15000,\n      \"amount_range\": \"$1,001 - $15,000\",\n      \"transaction_date\": \"2026-01-16\",\n      \"disclosure_date\": \"2026-01-23\",\n      \"est_price\": 186.23,\n      \"recent_price\": 211.8,\n      \"recent_price_date\": \"2026-07-14\",\n      \"perf_pct\": 13.73,\n      \"realized_return_pct\": 8.42,\n      \"outcome\": \"gain\",\n      \"filing_portal\": \"https://disclosures-clerk.house.gov/FinancialDisclosure\"\n    }\n  ],\n  \"page\": 0,\n  \"limit\": 100,\n  \"count\": 100\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ec830685-d13d-4afe-b0b8-8f760b4139ca",
+              "name": "Invalid filters or pagination depth.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trades"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ticker",
+                      "value": "NVDA"
+                    },
+                    {
+                      "key": "member",
+                      "value": "Pelosi"
+                    },
+                    {
+                      "key": "chamber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "2026-01-01"
+                    },
+                    {
+                      "key": "to",
+                      "value": "2026-12-31"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b442c2ee-1568-4a7d-a4aa-2753704dce4f",
+              "name": "The supplied API key is invalid or revoked.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trades"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ticker",
+                      "value": "NVDA"
+                    },
+                    {
+                      "key": "member",
+                      "value": "Pelosi"
+                    },
+                    {
+                      "key": "chamber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "2026-01-01"
+                    },
+                    {
+                      "key": "to",
+                      "value": "2026-12-31"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "75fc7e35-292e-4a7c-a19b-991cd93e3a33",
+              "name": "Daily request or row budget reached.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trades"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ticker",
+                      "value": "NVDA"
+                    },
+                    {
+                      "key": "member",
+                      "value": "Pelosi"
+                    },
+                    {
+                      "key": "chamber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "2026-01-01"
+                    },
+                    {
+                      "key": "to",
+                      "value": "2026-12-31"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "17aa15b4-cf3d-4e52-a683-ef19510ebd9a",
+          "name": "List trades for a ticker",
+          "request": {
+            "name": "List trades for a ticker",
+            "description": {
+              "content": "Returns all available congressional disclosures for one stock symbol, newest transaction first.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "trades",
+                ":ticker"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<date>",
+                  "description": "Earliest transaction date, inclusive."
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<date>",
+                  "description": "Latest transaction date, inclusive."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100",
+                  "description": "Rows per page. Maximum 100 without a key and 250 with a free key."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "0",
+                  "description": "Zero-based page number. Narrow broad queries with ticker, member, or date filters. Data covers the last 3 months."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ticker",
+                  "description": "(Required) Stock ticker symbol."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7fe17f3e-1bc7-4557-b343-8b62bfc55502",
+              "name": "A page of normalized congressional trades.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trades",
+                    ":ticker"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "2026-01-01"
+                    },
+                    {
+                      "key": "to",
+                      "value": "2026-12-31"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ticker",
+                      "description": "(Required) Stock ticker symbol."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Daily request limit for the current caller.",
+                  "key": "X-RateLimit-Limit",
+                  "value": "9049"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily requests remaining for the current caller.",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "9049"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily row limit for the current caller.",
+                  "key": "X-RateLimit-Rows-Limit",
+                  "value": "9049"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily rows remaining for the current caller.",
+                  "key": "X-RateLimit-Rows-Remaining",
+                  "value": "9049"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"trades\": [\n    {\n      \"member\": \"Nancy Pelosi\",\n      \"member_slug\": \"nancy-pelosi\",\n      \"chamber\": \"house\",\n      \"state\": \"CA11\",\n      \"ticker\": \"NVDA\",\n      \"asset\": \"NVIDIA Corporation - Common Stock\",\n      \"type\": \"purchase\",\n      \"amount_low\": 1001,\n      \"amount_high\": 15000,\n      \"amount_range\": \"$1,001 - $15,000\",\n      \"transaction_date\": \"2026-01-16\",\n      \"disclosure_date\": \"2026-01-23\",\n      \"est_price\": 186.23,\n      \"recent_price\": 211.8,\n      \"recent_price_date\": \"2026-07-14\",\n      \"perf_pct\": 13.73,\n      \"realized_return_pct\": 8.42,\n      \"outcome\": \"gain\",\n      \"filing_portal\": \"https://disclosures-clerk.house.gov/FinancialDisclosure\"\n    },\n    {\n      \"member\": \"Nancy Pelosi\",\n      \"member_slug\": \"nancy-pelosi\",\n      \"chamber\": \"house\",\n      \"state\": \"CA11\",\n      \"ticker\": \"NVDA\",\n      \"asset\": \"NVIDIA Corporation - Common Stock\",\n      \"type\": \"purchase\",\n      \"amount_low\": 1001,\n      \"amount_high\": 15000,\n      \"amount_range\": \"$1,001 - $15,000\",\n      \"transaction_date\": \"2026-01-16\",\n      \"disclosure_date\": \"2026-01-23\",\n      \"est_price\": 186.23,\n      \"recent_price\": 211.8,\n      \"recent_price_date\": \"2026-07-14\",\n      \"perf_pct\": 13.73,\n      \"realized_return_pct\": 8.42,\n      \"outcome\": \"gain\",\n      \"filing_portal\": \"https://disclosures-clerk.house.gov/FinancialDisclosure\"\n    }\n  ],\n  \"page\": 0,\n  \"limit\": 100,\n  \"count\": 100\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "996c76c4-de47-41f9-9c06-cb2f46af2d44",
+              "name": "Invalid filters or pagination depth.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trades",
+                    ":ticker"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "2026-01-01"
+                    },
+                    {
+                      "key": "to",
+                      "value": "2026-12-31"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ticker",
+                      "description": "(Required) Stock ticker symbol."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a46d2eb3-d491-4f00-abc1-ebd922670dc9",
+              "name": "The supplied API key is invalid or revoked.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trades",
+                    ":ticker"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "2026-01-01"
+                    },
+                    {
+                      "key": "to",
+                      "value": "2026-12-31"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ticker",
+                      "description": "(Required) Stock ticker symbol."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e7b3aac8-239f-4290-8640-4ce8c548c2c4",
+              "name": "Daily request or row budget reached.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trades",
+                    ":ticker"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "2026-01-01"
+                    },
+                    {
+                      "key": "to",
+                      "value": "2026-12-31"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ticker",
+                      "description": "(Required) Stock ticker symbol."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://www.bargo.ai/free-apis/congress/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "noauth"
+  },
+  "info": {
+    "_postman_id": "66a90eab-9f44-4cc3-a520-46896fbef9e6",
+    "name": "Bargo Congress Trades API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Independent, unofficial API for normalized U.S. House and Senate STOCK Act securities transaction disclosures. Includes member, security, transaction, filing, value-range, and price-performance fields. Disclosures can be filed up to approximately 45 days after a transaction; this is not a real-time trading feed or investment advice.\n\nContact Support:\n Name: Bargo",
+      "type": "text/plain"
+    }
+  }
+}
