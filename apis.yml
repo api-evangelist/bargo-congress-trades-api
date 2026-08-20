@@ -17,6 +17,19 @@ created: '2026-07-26'
 modified: '2026-08-09'
 specificationVersion: '0.23'
 tags:
+  - Congress
+  - Finance
+  - Stocks
+  - Government
+  - stock-act
+  - MCP
+  - Congressional Trading
+  - financial-disclosure
+  - Market Data
+  - Public Data
+  - Free API
+  - Open Data
+tags_raw:
   - congress
   - finance
   - stocks
@@ -39,6 +52,11 @@ apis:
   humanURL: https://www.bargo.ai/free-apis/congress
   baseURL: https://www.bargo.ai/free-apis/congress/mcp
   tags:
+  - MCP
+  - Agents
+  - Congress
+  - Stocks
+  tags_raw:
   - mcp
   - agents
   - congress
