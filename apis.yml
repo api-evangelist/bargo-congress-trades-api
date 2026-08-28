@@ -11,6 +11,18 @@ description: >-
   Access is anonymous by default at a lower quota; a free no-card API key raises limits and unlocks a
   focused three-tool MCP server for agents. Open CORS, an embeddable browser widget, and first-party
   JavaScript and Python clients. Attribution is required; bulk redistribution of raw records is not permitted.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://www.bargo.ai/favicon.png
 url: https://raw.githubusercontent.com/api-evangelist/bargo-congress-trades-api/refs/heads/main/apis.yml
 created: '2026-07-26'
