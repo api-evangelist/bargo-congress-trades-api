@@ -29,16 +29,16 @@ created: '2026-07-26'
 modified: '2026-08-09'
 specificationVersion: '0.23'
 tags:
-  - congress
+  - Congress
   - Finance
-  - stocks
-  - government
+  - Stocks
+  - Government
   - stock-act
   - MCP
-  - congressional-trading
+  - Congressional Trading
   - financial-disclosure
   - Market Data
-  - public-data
+  - Public Data
   - Free API
   - Open Data
 tags_raw:
@@ -66,8 +66,8 @@ apis:
   tags:
   - MCP
   - Agents
-  - congress
-  - stocks
+  - Congress
+  - Stocks
   tags_raw:
   - mcp
   - agents
