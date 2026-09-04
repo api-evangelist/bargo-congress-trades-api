@@ -23,6 +23,20 @@ deliveryModel:
   - pricing
   generated: '2026-08-28'
   method: derived
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source:
+  - authentication
+  - rate-limits
+  - security
+  generated: '2026-09-03'
+  method: derived
 image: https://www.bargo.ai/favicon.png
 url: https://raw.githubusercontent.com/api-evangelist/bargo-congress-trades-api/refs/heads/main/apis.yml
 created: '2026-07-26'
