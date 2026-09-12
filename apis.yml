@@ -200,6 +200,8 @@ generated:
   confidence: 97
   at: '2026-07-26T21:08:54.376Z'
 common:
+- type: Website
+  url: https://www.bargo.ai/
 - type: DomainSecurity
   url: security/bargo-congress-trades-api-domain-security.yml
 - type: AgenticAccess
