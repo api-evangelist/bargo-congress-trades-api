@@ -166,6 +166,8 @@ apis:
   humanURL: https://www.bargo.ai/free-apis/congress
   baseURL: https://www.bargo.ai/free-apis/congress/v1
   tags:
+  - Trade
+  tags_raw:
   - Trades
   properties:
   - type: OpenAPI
