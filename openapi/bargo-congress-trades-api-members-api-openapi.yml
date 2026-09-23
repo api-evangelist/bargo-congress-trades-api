@@ -63,6 +63,10 @@ components:
       description: Daily rows remaining for the current caller.
       schema:
         type: integer
+    RateLimitRemaining:
+      description: Daily requests remaining for the current caller.
+      schema:
+        type: integer
     RowLimit:
       description: Daily row limit for the current caller.
       schema:
@@ -71,10 +75,35 @@ components:
       description: Daily request limit for the current caller.
       schema:
         type: integer
-    RateLimitRemaining:
-      description: Daily requests remaining for the current caller.
+  parameters:
+    MemberSlugPath:
+      name: member_slug
+      in: path
+      required: true
+      description: Stable member slug returned by the trades or members endpoints.
+      schema:
+        type: string
+        minLength: 2
+        maxLength: 80
+        example: nancy-pelosi
+    MemberLimitQuery:
+      name: limit
+      in: query
+      description: Maximum number of members.
       schema:
         type: integer
+        minimum: 1
+        maximum: 500
+        default: 100
+    MemberTradeLimitQuery:
+      name: limit
+      in: query
+      description: Member trade rows. Maximum 100 without a key and 250 with a free key.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 100
   schemas:
     MemberDetail:
       type: object
@@ -105,6 +134,92 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Trade'
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: string
+    MemberSummary:
+      type: object
+      required:
+      - member
+      - member_slug
+      - chamber
+      - state
+      - trades
+      - buys
+      - sells
+      - last_trade
+      properties:
+        member:
+          type: string
+          example: Nancy Pelosi
+        member_slug:
+          type: string
+          example: nancy-pelosi
+        chamber:
+          type: string
+          enum:
+          - house
+          - senate
+        state:
+          type:
+          - string
+          - 'null'
+          example: CA11
+        trades:
+          type: integer
+          minimum: 0
+        buys:
+          type: integer
+          minimum: 0
+        sells:
+          type: integer
+          minimum: 0
+        last_trade:
+          type:
+          - string
+          - 'null'
+          format: date
+    MemberList:
+      type: object
+      required:
+      - members
+      properties:
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemberSummary'
+    MemberStats:
+      type: object
+      required:
+      - trades
+      - buys
+      - sells
+      - last_trade
+      - avg_buy_perf_pct
+      properties:
+        trades:
+          type: integer
+          minimum: 0
+        buys:
+          type: integer
+          minimum: 0
+        sells:
+          type: integer
+          minimum: 0
+        last_trade:
+          type:
+          - string
+          - 'null'
+          format: date
+        avg_buy_perf_pct:
+          type:
+          - number
+          - 'null'
+          format: double
     Trade:
       type: object
       required:
@@ -239,145 +354,9 @@ components:
           type: string
           format: uri
           example: https://disclosures-clerk.house.gov/FinancialDisclosure
-    MemberList:
-      type: object
-      required:
-      - members
-      properties:
-        members:
-          type: array
-          items:
-            $ref: '#/components/schemas/MemberSummary'
-    MemberStats:
-      type: object
-      required:
-      - trades
-      - buys
-      - sells
-      - last_trade
-      - avg_buy_perf_pct
-      properties:
-        trades:
-          type: integer
-          minimum: 0
-        buys:
-          type: integer
-          minimum: 0
-        sells:
-          type: integer
-          minimum: 0
-        last_trade:
-          type:
-          - string
-          - 'null'
-          format: date
-        avg_buy_perf_pct:
-          type:
-          - number
-          - 'null'
-          format: double
-    Error:
-      type: object
-      required:
-      - error
-      properties:
-        error:
-          type: string
-    MemberSummary:
-      type: object
-      required:
-      - member
-      - member_slug
-      - chamber
-      - state
-      - trades
-      - buys
-      - sells
-      - last_trade
-      properties:
-        member:
-          type: string
-          example: Nancy Pelosi
-        member_slug:
-          type: string
-          example: nancy-pelosi
-        chamber:
-          type: string
-          enum:
-          - house
-          - senate
-        state:
-          type:
-          - string
-          - 'null'
-          example: CA11
-        trades:
-          type: integer
-          minimum: 0
-        buys:
-          type: integer
-          minimum: 0
-        sells:
-          type: integer
-          minimum: 0
-        last_trade:
-          type:
-          - string
-          - 'null'
-          format: date
-  parameters:
-    MemberTradeLimitQuery:
-      name: limit
-      in: query
-      description: Member trade rows. Maximum 100 without a key and 250 with a free key.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 250
-        default: 100
-    MemberSlugPath:
-      name: member_slug
-      in: path
-      required: true
-      description: Stable member slug returned by the trades or members endpoints.
-      schema:
-        type: string
-        minLength: 2
-        maxLength: 80
-        example: nancy-pelosi
-    MemberLimitQuery:
-      name: limit
-      in: query
-      description: Maximum number of members.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 500
-        default: 100
   responses:
     RateLimited:
       description: Daily request or row budget reached.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    MemberDetail:
-      description: Member profile, statistics, and disclosures.
-      headers:
-        X-RateLimit-Limit:
-          $ref: '#/components/headers/RateLimit'
-        X-RateLimit-Remaining:
-          $ref: '#/components/headers/RateLimitRemaining'
-        X-RateLimit-Rows-Limit:
-          $ref: '#/components/headers/RowLimit'
-        X-RateLimit-Rows-Remaining:
-          $ref: '#/components/headers/RowLimitRemaining'
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/MemberDetail'
-    NotFound:
-      description: The requested member was not found.
       content:
         application/json:
           schema:
@@ -397,6 +376,27 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/MemberList'
+    NotFound:
+      description: The requested member was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    MemberDetail:
+      description: Member profile, statistics, and disclosures.
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/RateLimit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/RateLimitRemaining'
+        X-RateLimit-Rows-Limit:
+          $ref: '#/components/headers/RowLimit'
+        X-RateLimit-Rows-Remaining:
+          $ref: '#/components/headers/RowLimitRemaining'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MemberDetail'
     InvalidKey:
       description: The supplied API key is invalid or revoked.
       content:

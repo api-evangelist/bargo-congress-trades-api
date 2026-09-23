@@ -51,70 +51,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Health'
 components:
-  headers:
-    RowLimitRemaining:
-      description: Daily rows remaining for the current caller.
-      schema:
-        type: integer
-    RowLimit:
-      description: Daily row limit for the current caller.
-      schema:
-        type: integer
-    RateLimit:
-      description: Daily request limit for the current caller.
-      schema:
-        type: integer
-    RateLimitRemaining:
-      description: Daily requests remaining for the current caller.
-      schema:
-        type: integer
   schemas:
-    Stats:
-      type: object
-      required:
-      - totals
-      - latest_transaction
-      - latest_disclosure
-      - most_traded_90d
-      properties:
-        totals:
-          $ref: '#/components/schemas/Totals'
-        latest_transaction:
-          type:
-          - string
-          - 'null'
-          format: date
-        latest_disclosure:
-          type:
-          - string
-          - 'null'
-          format: date
-        most_traded_90d:
-          type: array
-          items:
-            $ref: '#/components/schemas/TradedTicker'
-    Health:
-      type: object
-      required:
-      - status
-      - trades
-      - latest_disclosure
-      - note
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-        trades:
-          type: integer
-          minimum: 0
-        latest_disclosure:
-          type:
-          - string
-          - 'null'
-          format: date
-        note:
-          type: string
     Totals:
       type: object
       required:
@@ -139,12 +76,58 @@ components:
         sells:
           type: integer
           minimum: 0
+    Stats:
+      type: object
+      required:
+      - totals
+      - latest_transaction
+      - latest_disclosure
+      - most_traded_90d
+      properties:
+        totals:
+          $ref: '#/components/schemas/Totals'
+        latest_transaction:
+          type:
+          - string
+          - 'null'
+          format: date
+        latest_disclosure:
+          type:
+          - string
+          - 'null'
+          format: date
+        most_traded_90d:
+          type: array
+          items:
+            $ref: '#/components/schemas/TradedTicker'
     Error:
       type: object
       required:
       - error
       properties:
         error:
+          type: string
+    Health:
+      type: object
+      required:
+      - status
+      - trades
+      - latest_disclosure
+      - note
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+        trades:
+          type: integer
+          minimum: 0
+        latest_disclosure:
+          type:
+          - string
+          - 'null'
+          format: date
+        note:
           type: string
     TradedTicker:
       type: object
@@ -169,6 +152,23 @@ components:
         members:
           type: integer
           minimum: 0
+  headers:
+    RowLimitRemaining:
+      description: Daily rows remaining for the current caller.
+      schema:
+        type: integer
+    RateLimitRemaining:
+      description: Daily requests remaining for the current caller.
+      schema:
+        type: integer
+    RowLimit:
+      description: Daily row limit for the current caller.
+      schema:
+        type: integer
+    RateLimit:
+      description: Daily request limit for the current caller.
+      schema:
+        type: integer
   responses:
     RateLimited:
       description: Daily request or row budget reached.

@@ -1,0 +1,33 @@
+# Front Door AI Index — bargo-congress-trades-api — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: bargo-congress-trades-api
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.bargo.ai
+  final_host: www.bargo.ai
+  ownership: own
+  owner: bargo-congress-trades-api
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 46
+  host_score: 46
+  density: 23.8
+  words: 1933
+  tiers:
+    agentic: 12
+    core: 33
+    model: 1
+  ambiguous: 9
+  top_terms:
+    AI: 32
+    agent: 8
+    MCP: 6
+    agentic: 3
+    inference: 2
+    AI agent: 1
+    Claude: 1
+    LLMs: 1
+    intelligence: 1
