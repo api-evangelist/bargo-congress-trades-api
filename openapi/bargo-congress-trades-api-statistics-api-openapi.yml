@@ -52,6 +52,51 @@ paths:
                 $ref: '#/components/schemas/Health'
 components:
   schemas:
+    Health:
+      type: object
+      required:
+      - status
+      - trades
+      - latest_disclosure
+      - note
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+        trades:
+          type: integer
+          minimum: 0
+        latest_disclosure:
+          type:
+          - string
+          - 'null'
+          format: date
+        note:
+          type: string
+    TradedTicker:
+      type: object
+      required:
+      - ticker
+      - trades
+      - buys
+      - sells
+      - members
+      properties:
+        ticker:
+          type: string
+        trades:
+          type: integer
+          minimum: 0
+        buys:
+          type: integer
+          minimum: 0
+        sells:
+          type: integer
+          minimum: 0
+        members:
+          type: integer
+          minimum: 0
     Totals:
       type: object
       required:
@@ -107,69 +152,13 @@ components:
       properties:
         error:
           type: string
-    Health:
-      type: object
-      required:
-      - status
-      - trades
-      - latest_disclosure
-      - note
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-        trades:
-          type: integer
-          minimum: 0
-        latest_disclosure:
-          type:
-          - string
-          - 'null'
-          format: date
-        note:
-          type: string
-    TradedTicker:
-      type: object
-      required:
-      - ticker
-      - trades
-      - buys
-      - sells
-      - members
-      properties:
-        ticker:
-          type: string
-        trades:
-          type: integer
-          minimum: 0
-        buys:
-          type: integer
-          minimum: 0
-        sells:
-          type: integer
-          minimum: 0
-        members:
-          type: integer
-          minimum: 0
-  headers:
-    RowLimitRemaining:
-      description: Daily rows remaining for the current caller.
-      schema:
-        type: integer
-    RateLimitRemaining:
-      description: Daily requests remaining for the current caller.
-      schema:
-        type: integer
-    RowLimit:
-      description: Daily row limit for the current caller.
-      schema:
-        type: integer
-    RateLimit:
-      description: Daily request limit for the current caller.
-      schema:
-        type: integer
   responses:
+    InvalidKey:
+      description: The supplied API key is invalid or revoked.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     RateLimited:
       description: Daily request or row budget reached.
       content:
@@ -191,12 +180,23 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Stats'
-    InvalidKey:
-      description: The supplied API key is invalid or revoked.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+  headers:
+    RowLimitRemaining:
+      description: Daily rows remaining for the current caller.
+      schema:
+        type: integer
+    RateLimitRemaining:
+      description: Daily requests remaining for the current caller.
+      schema:
+        type: integer
+    RateLimit:
+      description: Daily request limit for the current caller.
+      schema:
+        type: integer
+    RowLimit:
+      description: Daily row limit for the current caller.
+      schema:
+        type: integer
   securitySchemes:
     ApiKeyHeader:
       type: apiKey

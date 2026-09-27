@@ -70,85 +70,7 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  headers:
-    RowLimitRemaining:
-      description: Daily rows remaining for the current caller.
-      schema:
-        type: integer
-    RateLimit:
-      description: Daily request limit for the current caller.
-      schema:
-        type: integer
-    RateLimitRemaining:
-      description: Daily requests remaining for the current caller.
-      schema:
-        type: integer
-    RowLimit:
-      description: Daily row limit for the current caller.
-      schema:
-        type: integer
   parameters:
-    FromDateQuery:
-      name: from
-      in: query
-      description: Earliest transaction date, inclusive.
-      schema:
-        type: string
-        format: date
-        example: '2026-01-01'
-    TradeLimitQuery:
-      name: limit
-      in: query
-      description: Rows per page. Maximum 100 without a key and 250 with a free key.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 250
-        default: 100
-    PageQuery:
-      name: page
-      in: query
-      description: Zero-based page number. Narrow broad queries with ticker, member, or date filters. Data covers the last 3 months.
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-    MemberQuery:
-      name: member
-      in: query
-      description: Case-insensitive partial member-name match.
-      schema:
-        type: string
-        minLength: 2
-        maxLength: 80
-        example: Pelosi
-    ToDateQuery:
-      name: to
-      in: query
-      description: Latest transaction date, inclusive.
-      schema:
-        type: string
-        format: date
-        example: '2026-12-31'
-    TransactionTypeQuery:
-      name: type
-      in: query
-      description: Normalized transaction classification.
-      schema:
-        type: string
-        enum:
-        - purchase
-        - sale
-        - exchange
-    ChamberQuery:
-      name: chamber
-      in: query
-      description: Legislative chamber.
-      schema:
-        type: string
-        enum:
-        - house
-        - senate
     TickerPath:
       name: ticker
       in: path
@@ -159,6 +81,67 @@ components:
         minLength: 1
         maxLength: 16
         example: NVDA
+    MemberQuery:
+      name: member
+      in: query
+      description: Case-insensitive partial member-name match.
+      schema:
+        type: string
+        minLength: 2
+        maxLength: 80
+        example: Pelosi
+    TransactionTypeQuery:
+      name: type
+      in: query
+      description: Normalized transaction classification.
+      schema:
+        type: string
+        enum:
+        - purchase
+        - sale
+        - exchange
+    TradeLimitQuery:
+      name: limit
+      in: query
+      description: Rows per page. Maximum 100 without a key and 250 with a free key.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 100
+    FromDateQuery:
+      name: from
+      in: query
+      description: Earliest transaction date, inclusive.
+      schema:
+        type: string
+        format: date
+        example: '2026-01-01'
+    PageQuery:
+      name: page
+      in: query
+      description: Zero-based page number. Narrow broad queries with ticker, member, or date filters. Data covers the last 3 months.
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    ChamberQuery:
+      name: chamber
+      in: query
+      description: Legislative chamber.
+      schema:
+        type: string
+        enum:
+        - house
+        - senate
+    ToDateQuery:
+      name: to
+      in: query
+      description: Latest transaction date, inclusive.
+      schema:
+        type: string
+        format: date
+        example: '2026-12-31'
     TickerQuery:
       name: ticker
       in: query
@@ -168,6 +151,23 @@ components:
         minLength: 1
         maxLength: 16
         example: NVDA
+  headers:
+    RowLimitRemaining:
+      description: Daily rows remaining for the current caller.
+      schema:
+        type: integer
+    RateLimitRemaining:
+      description: Daily requests remaining for the current caller.
+      schema:
+        type: integer
+    RateLimit:
+      description: Daily request limit for the current caller.
+      schema:
+        type: integer
+    RowLimit:
+      description: Daily row limit for the current caller.
+      schema:
+        type: integer
   responses:
     RateLimited:
       description: Daily request or row budget reached.
@@ -177,12 +177,6 @@ components:
             $ref: '#/components/schemas/Error'
     BadRequest:
       description: Invalid filters or pagination depth.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InvalidKey:
-      description: The supplied API key is invalid or revoked.
       content:
         application/json:
           schema:
@@ -202,6 +196,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/TradePage'
+    InvalidKey:
+      description: The supplied API key is invalid or revoked.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     Error:
       type: object
@@ -210,30 +210,6 @@ components:
       properties:
         error:
           type: string
-    TradePage:
-      type: object
-      required:
-      - trades
-      - page
-      - limit
-      - count
-      properties:
-        trades:
-          type: array
-          items:
-            $ref: '#/components/schemas/Trade'
-        page:
-          type: integer
-          minimum: 0
-          example: 0
-        limit:
-          type: integer
-          minimum: 1
-          example: 100
-        count:
-          type: integer
-          minimum: 0
-          example: 100
     Trade:
       type: object
       required:
@@ -368,6 +344,30 @@ components:
           type: string
           format: uri
           example: https://disclosures-clerk.house.gov/FinancialDisclosure
+    TradePage:
+      type: object
+      required:
+      - trades
+      - page
+      - limit
+      - count
+      properties:
+        trades:
+          type: array
+          items:
+            $ref: '#/components/schemas/Trade'
+        page:
+          type: integer
+          minimum: 0
+          example: 0
+        limit:
+          type: integer
+          minimum: 1
+          example: 100
+        count:
+          type: integer
+          minimum: 0
+          example: 100
   securitySchemes:
     ApiKeyHeader:
       type: apiKey
