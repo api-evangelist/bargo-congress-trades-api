@@ -51,30 +51,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Health'
 components:
-  headers:
-    RowLimit:
-      description: Daily row limit for the current caller.
-      schema:
-        type: integer
-    RateLimitRemaining:
-      description: Daily requests remaining for the current caller.
-      schema:
-        type: integer
-    RateLimit:
-      description: Daily request limit for the current caller.
-      schema:
-        type: integer
-    RowLimitRemaining:
-      description: Daily rows remaining for the current caller.
-      schema:
-        type: integer
   responses:
-    InvalidKey:
-      description: The supplied API key is invalid or revoked.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     Stats:
       description: Aggregate dataset statistics.
       headers:
@@ -90,13 +67,89 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Stats'
+    InvalidKey:
+      description: The supplied API key is invalid or revoked.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     RateLimited:
       description: Daily request or row budget reached.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  headers:
+    RateLimitRemaining:
+      description: Daily requests remaining for the current caller.
+      schema:
+        type: integer
+    RowLimit:
+      description: Daily row limit for the current caller.
+      schema:
+        type: integer
+    RowLimitRemaining:
+      description: Daily rows remaining for the current caller.
+      schema:
+        type: integer
+    RateLimit:
+      description: Daily request limit for the current caller.
+      schema:
+        type: integer
   schemas:
+    Health:
+      type: object
+      required:
+      - status
+      - trades
+      - latest_disclosure
+      - note
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+        trades:
+          type: integer
+          minimum: 0
+        latest_disclosure:
+          type:
+          - string
+          - 'null'
+          format: date
+        note:
+          type: string
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: string
+    Totals:
+      type: object
+      required:
+      - trades
+      - members
+      - tickers
+      - buys
+      - sells
+      properties:
+        trades:
+          type: integer
+          minimum: 0
+        members:
+          type: integer
+          minimum: 0
+        tickers:
+          type: integer
+          minimum: 0
+        buys:
+          type: integer
+          minimum: 0
+        sells:
+          type: integer
+          minimum: 0
     Stats:
       type: object
       required:
@@ -142,59 +195,6 @@ components:
           type: integer
           minimum: 0
         members:
-          type: integer
-          minimum: 0
-    Error:
-      type: object
-      required:
-      - error
-      properties:
-        error:
-          type: string
-    Health:
-      type: object
-      required:
-      - status
-      - trades
-      - latest_disclosure
-      - note
-      properties:
-        status:
-          type: string
-          enum:
-          - ok
-        trades:
-          type: integer
-          minimum: 0
-        latest_disclosure:
-          type:
-          - string
-          - 'null'
-          format: date
-        note:
-          type: string
-    Totals:
-      type: object
-      required:
-      - trades
-      - members
-      - tickers
-      - buys
-      - sells
-      properties:
-        trades:
-          type: integer
-          minimum: 0
-        members:
-          type: integer
-          minimum: 0
-        tickers:
-          type: integer
-          minimum: 0
-        buys:
-          type: integer
-          minimum: 0
-        sells:
           type: integer
           minimum: 0
   securitySchemes:
