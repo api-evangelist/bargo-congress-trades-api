@@ -14,7 +14,7 @@ edges:
     registered_name: io.github.bargo-ai/congress-trades
     register_id: io.github.bargo-ai/congress-trades
     detected_by: sweep-agent-tools.py
-    detected: '2026-10-14'
+    detected: '2026-10-15'
   mcp_registry:
     servers:
     - io.github.bargo-ai/congress-trades
