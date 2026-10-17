@@ -51,6 +51,23 @@ paths:
               schema:
                 $ref: '#/components/schemas/Health'
 components:
+  headers:
+    RowLimitRemaining:
+      description: Daily rows remaining for the current caller.
+      schema:
+        type: integer
+    RateLimitRemaining:
+      description: Daily requests remaining for the current caller.
+      schema:
+        type: integer
+    RowLimit:
+      description: Daily row limit for the current caller.
+      schema:
+        type: integer
+    RateLimit:
+      description: Daily request limit for the current caller.
+      schema:
+        type: integer
   responses:
     Stats:
       description: Aggregate dataset statistics.
@@ -79,24 +96,37 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  headers:
-    RateLimitRemaining:
-      description: Daily requests remaining for the current caller.
-      schema:
-        type: integer
-    RowLimit:
-      description: Daily row limit for the current caller.
-      schema:
-        type: integer
-    RowLimitRemaining:
-      description: Daily rows remaining for the current caller.
-      schema:
-        type: integer
-    RateLimit:
-      description: Daily request limit for the current caller.
-      schema:
-        type: integer
   schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: string
+    TradedTicker:
+      type: object
+      required:
+      - ticker
+      - trades
+      - buys
+      - sells
+      - members
+      properties:
+        ticker:
+          type: string
+        trades:
+          type: integer
+          minimum: 0
+        buys:
+          type: integer
+          minimum: 0
+        sells:
+          type: integer
+          minimum: 0
+        members:
+          type: integer
+          minimum: 0
     Health:
       type: object
       required:
@@ -119,37 +149,6 @@ components:
           format: date
         note:
           type: string
-    Error:
-      type: object
-      required:
-      - error
-      properties:
-        error:
-          type: string
-    Totals:
-      type: object
-      required:
-      - trades
-      - members
-      - tickers
-      - buys
-      - sells
-      properties:
-        trades:
-          type: integer
-          minimum: 0
-        members:
-          type: integer
-          minimum: 0
-        tickers:
-          type: integer
-          minimum: 0
-        buys:
-          type: integer
-          minimum: 0
-        sells:
-          type: integer
-          minimum: 0
     Stats:
       type: object
       required:
@@ -174,27 +173,28 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TradedTicker'
-    TradedTicker:
+    Totals:
       type: object
       required:
-      - ticker
       - trades
+      - members
+      - tickers
       - buys
       - sells
-      - members
       properties:
-        ticker:
-          type: string
         trades:
+          type: integer
+          minimum: 0
+        members:
+          type: integer
+          minimum: 0
+        tickers:
           type: integer
           minimum: 0
         buys:
           type: integer
           minimum: 0
         sells:
-          type: integer
-          minimum: 0
-        members:
           type: integer
           minimum: 0
   securitySchemes:
