@@ -37,8 +37,11 @@ bridge:
   source: https://github.com/bargo-ai/bargo-free-api-packages/tree/main/docker/mcp-bridge
 tools:
 - name: get_congress_trades
-  description: U.S. Congress stock trades from official STOCK Act Periodic Transaction Reports (House
-    Clerk + Senate eFD). Filter by ticker, member (substring), chamber, or type. Newest transaction first.
+  description: 'U.S. Congress stock trades from official STOCK Act Periodic Transaction Reports (House
+    Clerk + Senate eFD). Each row: member, chamber, state, ticker, company, type (purchase/sale/exchange),
+    disclosed dollar range, transaction & disclosure dates, AND per-trade performance (price at trade,
+    latest price, % move since). Filter by ticker, member (substring), chamber, or type. Newest transaction
+    first. CAVEAT: PTRs are disclosed up to ~45 days after the trade — read as ''recent weeks'', not real-time.'
   input_schema:
     ticker:
       type: string
@@ -68,7 +71,8 @@ tools:
   source_operation: openapi/bargo-congress-trades-api-congress-trades-openapi.yml#listCongressTrades
 - name: get_congress_member
   description: All disclosed trades for one member of Congress plus a performance summary (trade count,
-    buys/sells, average per-share return on disclosed buys).
+    buys/sells, average per-share return on disclosed buys). Pass the member_slug returned by get_congress_trades
+    (e.g. 'nancy-pelosi').
   input_schema:
     member_slug:
       type: string
@@ -138,3 +142,4 @@ tool_quality:
   scored: false
   note: Facts from the saved tools/list capture (mcp_tool_quality.py); recorded, not scored. Checks learned
     from Glimind's agent-readiness audit.
+tools_count: 3
