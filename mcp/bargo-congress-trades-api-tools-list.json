@@ -1,9 +1,17 @@
 {
+  "endpoint": "https://www.bargo.ai/free-apis/congress/mcp",
+  "captured": "2026-10-20",
+  "method": "initialize + tools/list (anonymous, no tool called; roadmap#992)",
+  "protocol_version": "2025-06-18",
+  "server_info": {
+    "name": "bargo-congress",
+    "version": "1.0.0"
+  },
   "result": {
     "tools": [
       {
         "name": "get_congress_trades",
-        "description": "U.S. Congress stock trades from official STOCK Act Periodic Transaction Reports (House Clerk + Senate eFD). Each row: member, chamber, state, ticker, company, type (purchase/sale/exchange), disclosed dollar range, transaction & disclosure dates, AND per-trade performance (price at trade, latest price, % move since). Filter by ticker, member (substring), chamber, or type. Newest transaction first. CAVEAT: PTRs are disclosed up to ~45 days after the trade \u2014 read as 'recent weeks', not real-time.",
+        "description": "U.S. Congress stock trades from official STOCK Act Periodic Transaction Reports (House Clerk + Senate eFD). Each row: member, chamber, state, ticker, company, type (purchase/sale/exchange), disclosed dollar range, transaction & disclosure dates, AND per-trade performance (price at trade, latest price, % move since). Filter by ticker, member (substring), chamber, or type. Newest transaction first. CAVEAT: PTRs are disclosed up to ~45 days after the trade — read as 'recent weeks', not real-time.",
         "inputSchema": {
           "$schema": "http://json-schema.org/draft-07/schema#",
           "type": "object",
@@ -85,7 +93,5 @@
         }
       }
     ]
-  },
-  "jsonrpc": "2.0",
-  "id": 1
+  }
 }

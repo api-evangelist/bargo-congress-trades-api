@@ -113,3 +113,28 @@ deployment:
   tools: 3
   checked: '2026-08-12'
   source: catalog MCP census
+tool_quality:
+  tool_count: 3
+  tokens_total: 528
+  tokens_per_tool_median: 156
+  heavy_tools: []
+  heavy_tool_count: 0
+  params_total: 7
+  params_undescribed: 7
+  params_described_pct: 0.0
+  tools_with_undescribed_params: 2
+  tools_annotated: 0
+  annotated_pct: 0.0
+  state_changing_unhinted: []
+  tools_missing_schema: 0
+  short_descriptions: 0
+  duplicate_descriptions: 0
+  duplicate_names: 0
+  nonportable_names: []
+  output_schema_count: 0
+  token_estimate: chars/3.6 of each compact tool definition
+  source: mcp/bargo-congress-trades-api-tools-list.json
+  measured: '2026-10-20'
+  scored: false
+  note: Facts from the saved tools/list capture (mcp_tool_quality.py); recorded, not scored. Checks learned
+    from Glimind's agent-readiness audit.
