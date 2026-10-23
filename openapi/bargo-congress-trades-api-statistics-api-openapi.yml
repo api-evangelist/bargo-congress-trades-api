@@ -216,3 +216,9 @@ components:
 externalDocs:
   description: Congress Trades API documentation
   url: https://www.bargo.ai/free-apis/congress
+x-provenance:
+  method: harvested
+  publisher: Bargo Congress Trades API
+  source: https://www.bargo.ai/free-apis/congress/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
