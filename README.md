@@ -1,4 +1,4 @@
-# Bargo Congress Trades API (bargo-congress-trades-api)
+# Bargo Congress Trades API
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,174 +66,136 @@
 
 A free JSON REST API and hosted MCP server from Bargo that normalizes U.S. House and Senate STOCK Act securities transaction disclosures into a queryable dataset — currently 42,000+ disclosed trades across 415 members and 4,100+ tickers. Six read-only GET operations cover trades (filterable by ticker, member, chamber, transaction type and date range), a member roster, per-member disclosure histories, aggregate statistics, and a dataset-freshness health check. Unusually for a free congressional-trading tracker, every row carries per-trade price performance — estimated price at the trade, latest price, and percent move since. Records are parsed and deduplicated from the official U.S. House Clerk Financial Disclosure reports and Senate eFD Periodic Transaction Reports, so disclosures lag transactions by up to ~45 days. Access is anonymous by default at a lower quota; a free no-card API key raises limits and unlocks a focused three-tool MCP server for agents. Open CORS, an embeddable browser widget, and first-party JavaScript and Python clients. Attribution is required; bulk redistribution of raw records is not permitted.
 
-**APIs.json:** [https://bargo-congress-trades-api.apievangelist.com/apis.yml](https://bargo-congress-trades-api.apievangelist.com/apis.yml)
+**Areas:** Congress · Finance · Stocks · Government · stock-act · MCP · Congressional Trading · financial-disclosure · Market Data · Public Data · Free API · Open Data
 
-## Tags
+## Bargo Congress Trades API on APIs.io
 
-- congress
-- finance
-- stocks
-- government
-- stock-act
-- mcp
-- congressional-trading
-- financial-disclosure
-- market-data
-- public-data
-- free-api
-- open-data
+Everything profiled for Bargo Congress Trades API is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/bargo-congress-trades-api/](https://apis.io/providers/bargo-congress-trades-api/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (4)
 
-- **Created:** 2026-07-26
-- **Modified:** 2026-08-09
+- [Congress Trades MCP Server](https://apis.io/apis/bargo-congress-trades-api/congress-trades-mcp-server/) — A focused Streamable HTTP MCP server exposing three read-only tools over the Congress Trades dataset — get_congress_trades, get_congress_member and…
+- [Bargo Congress Trades API Members API](https://apis.io/apis/bargo-congress-trades-api/bargo-congress-trades-api-members-api/) — Members of Congress and their disclosure histories.
+- [Bargo Congress Trades API Statistics API](https://apis.io/apis/bargo-congress-trades-api/bargo-congress-trades-api-statistics-api/) — Aggregate dataset statistics and freshness.
+- [Bargo Congress Trades API Trades API](https://apis.io/apis/bargo-congress-trades-api/bargo-congress-trades-api-trades-api/) — Normalized House and Senate securities transactions.
 
-## APIs
+### Published properties
 
-### Congress Trades MCP Server
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-A focused Streamable HTTP MCP server exposing three read-only tools over the Congress Trades dataset — get_congress_trades, get_congress_member and get_congress_stats. The handshake and tools/list are anonymous; tool calls require a free fak_ key via X-Api-Key, Bearer, or a token query parameter. An official Docker image bridges stdio-only MCP clients to it.
+#### MCP servers (1)
 
-- **Human URL:** [https://www.bargo.ai/free-apis/congress](https://www.bargo.ai/free-apis/congress)
-- **Base URL:** `https://www.bargo.ai/free-apis/congress/mcp`
+Model Context Protocol servers that expose the API to agents.
 
-#### Tags
+- [bargo-congress](https://apis.io/servers/bargo-congress-trades-api/bargo-congress/)
 
-- mcp
-- agents
-- congress
-- stocks
+#### Agentic access (1)
 
-#### Properties
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- [M C P Server](mcp/bargo-congress-trades-api-mcp.yml)
-- [M C P Server](https://www.bargo.ai/free-apis/congress/mcp)
-- [Tool Crosswalk](mcp/bargo-congress-trades-api-tool-crosswalk.yml)
-- [Agent Skill](skills/_index.yml)
-- [Authentication](authentication/bargo-congress-trades-api-authentication.yml)
-- [Documentation](https://github.com/bargo-ai/bargo-free-api-packages/blob/main/docs/mcp.md)
-- [Postman Collection](collections/bargo-congress-trades-api-members-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/bargo-congress-trades-api-members-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/bargo-congress-trades-api-statistics-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/bargo-congress-trades-api-statistics-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/bargo-congress-trades-api-trades-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/bargo-congress-trades-api-trades-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Bargo Congress Trades Api Agentic Access](https://apis.io/agentic-access/bargo-congress-trades-api/bargo-congress-trades-api-agentic-access/)
 
-### Bargo Congress Trades API Members API
+#### Examples (3)
 
-Members of Congress and their disclosure histories.
+Example requests and responses.
 
-- **Human URL:** [https://www.bargo.ai/free-apis/congress](https://www.bargo.ai/free-apis/congress)
-- **Base URL:** `https://www.bargo.ai/free-apis/congress/v1`
+- [Bargo Congress Trades Api Get Health Example](https://apis.io/examples/bargo-congress-trades-api/bargo-congress-trades-api-get-health-example/)
+- [Bargo Congress Trades Api Get Stats Example](https://apis.io/examples/bargo-congress-trades-api/bargo-congress-trades-api-get-stats-example/)
+- [Bargo Congress Trades Api List Trades By Ticker Example](https://apis.io/examples/bargo-congress-trades-api/bargo-congress-trades-api-list-trades-by-ticker-example/)
 
-#### Tags
+#### Collections (3)
 
-- Members
+Postman and Open Collection request collections.
 
-#### Properties
+- [Bargo Congress Trades Members API](https://apis.io/collections/bargo-congress-trades-api/open-bargo-congress-trades-api-members-api/)
+- [Bargo Congress Trades Statistics API](https://apis.io/collections/bargo-congress-trades-api/open-bargo-congress-trades-api-statistics-api/)
+- [Bargo Congress Trades API](https://apis.io/collections/bargo-congress-trades-api/open-bargo-congress-trades-api-trades-api/)
 
-- [OpenAPI](openapi/bargo-congress-trades-api-members-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/bargo-congress-trades-api-members-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/bargo-congress-trades-api-members-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Bargo Congress Trades Api Congress Trades Overlay](https://apis.io/overlays/bargo-congress-trades-api/bargo-congress-trades-api-congress-trades-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Bargo Congress Trades Api Authentication](https://apis.io/security/bargo-congress-trades-api/bargo-congress-trades-api-authentication/)
+- [Bargo Congress Trades Api Domain Security](https://apis.io/security/bargo-congress-trades-api/bargo-congress-trades-api-domain-security/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Bargo Congress Trades Api Rate Limits](https://apis.io/rate-limits/bargo-congress-trades-api/bargo-congress-trades-api-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.bargo.ai/)
 - [Documentation](https://www.bargo.ai/free-apis/congress)
-- [API Reference](https://www.bargo.ai/free-apis/congress)
-- [Authentication](authentication/bargo-congress-trades-api-authentication.yml)
-- [Conventions](conventions/bargo-congress-trades-api-conventions.yml)
-- [Error Catalog](errors/bargo-congress-trades-api-problem-types.yml)
-- [Data Model](data-model/bargo-congress-trades-api-data-model.yml)
-- [Rate Limits](rate-limits/bargo-congress-trades-api-rate-limits.yml)
-- [Examples](examples/_index.yml)
-- [Components](components/bargo-congress-trades-api-components.yml)
-- [S D Ks](packages/bargo-congress-trades-api-packages.yml)
-
-### Bargo Congress Trades API Statistics API
-
-Aggregate dataset statistics and freshness.
-
-- **Human URL:** [https://www.bargo.ai/free-apis/congress](https://www.bargo.ai/free-apis/congress)
-- **Base URL:** `https://www.bargo.ai/free-apis/congress/v1`
-
-#### Tags
-
-- Statistics
-
-#### Properties
-
-- [OpenAPI](openapi/bargo-congress-trades-api-statistics-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/bargo-congress-trades-api-statistics-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/bargo-congress-trades-api-statistics-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Documentation](https://www.bargo.ai/free-apis/congress)
-- [API Reference](https://www.bargo.ai/free-apis/congress)
-- [Authentication](authentication/bargo-congress-trades-api-authentication.yml)
-- [Conventions](conventions/bargo-congress-trades-api-conventions.yml)
-- [Error Catalog](errors/bargo-congress-trades-api-problem-types.yml)
-- [Data Model](data-model/bargo-congress-trades-api-data-model.yml)
-- [Rate Limits](rate-limits/bargo-congress-trades-api-rate-limits.yml)
-- [Examples](examples/_index.yml)
-- [Components](components/bargo-congress-trades-api-components.yml)
-- [S D Ks](packages/bargo-congress-trades-api-packages.yml)
-
-### Bargo Congress Trades API Trades API
-
-Normalized House and Senate securities transactions.
-
-- **Human URL:** [https://www.bargo.ai/free-apis/congress](https://www.bargo.ai/free-apis/congress)
-- **Base URL:** `https://www.bargo.ai/free-apis/congress/v1`
-
-#### Tags
-
-- Trades
-
-#### Properties
-
-- [OpenAPI](openapi/bargo-congress-trades-api-trades-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/bargo-congress-trades-api-trades-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/bargo-congress-trades-api-trades-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Documentation](https://www.bargo.ai/free-apis/congress)
-- [API Reference](https://www.bargo.ai/free-apis/congress)
-- [Authentication](authentication/bargo-congress-trades-api-authentication.yml)
-- [Conventions](conventions/bargo-congress-trades-api-conventions.yml)
-- [Error Catalog](errors/bargo-congress-trades-api-problem-types.yml)
-- [Data Model](data-model/bargo-congress-trades-api-data-model.yml)
-- [Rate Limits](rate-limits/bargo-congress-trades-api-rate-limits.yml)
-- [Examples](examples/_index.yml)
-- [Components](components/bargo-congress-trades-api-components.yml)
-- [S D Ks](packages/bargo-congress-trades-api-packages.yml)
-
-## Common Properties
-
-- [Domain Security](security/bargo-congress-trades-api-domain-security.yml)
-- [Agentic Access](agentic-access/bargo-congress-trades-api-agentic-access.yml)
-- [Authentication](authentication/bargo-congress-trades-api-authentication.yml)
-- [Developer Portal](https://www.bargo.ai/free-apis/congress)
-- [Documentation](https://www.bargo.ai/free-apis/congress)
-- [API Reference](https://www.bargo.ai/free-apis/congress/openapi.json)
-- [Getting Started](https://www.bargo.ai/free-apis/congress)
-- [Sign Up](https://www.bargo.ai/free-apis/dash)
+- [Getting started](https://www.bargo.ai/free-apis/congress)
+- [API reference](https://www.bargo.ai/free-apis/congress/openapi.json)
+- [Sign up](https://www.bargo.ai/free-apis/dash)
 - [Support](https://www.bargo.ai/contact)
-- [Terms of Service](https://www.bargo.ai/free-apis/terms)
-- [Privacy Policy](https://www.bargo.ai/privacy)
-- [GitHub Organization](https://github.com/bargo-ai)
 - [Blog](https://www.bargo.ai/research)
-- [M C P Server](mcp/bargo-congress-trades-api-mcp.yml)
-- [Tool Crosswalk](mcp/bargo-congress-trades-api-tool-crosswalk.yml)
-- [Agent Skill](skills/_index.yml)
-- [L L Ms Txt](llms/bargo-congress-trades-api-llms.txt)
-- [Well Known](well-known/bargo-congress-trades-api-well-known.yml)
-- [Packages](packages/bargo-congress-trades-api-packages.yml)
-- [S D Ks](packages/bargo-congress-trades-api-packages.yml)
-- [Conventions](conventions/bargo-congress-trades-api-conventions.yml)
-- [Error Catalog](errors/bargo-congress-trades-api-problem-types.yml)
-- [Data Model](data-model/bargo-congress-trades-api-data-model.yml)
-- [Rate Limits](rate-limits/bargo-congress-trades-api-rate-limits.yml)
-- [Lifecycle](lifecycle/bargo-congress-trades-api-lifecycle.yml)
-- [Conformance](conformance/bargo-congress-trades-api-conformance.yml)
-- [Components](components/bargo-congress-trades-api-components.yml)
-- [Examples](examples/_index.yml)
-- [Overlay](overlays/bargo-congress-trades-api-congress-trades-overlay.yaml)
+- [Terms of service](https://www.bargo.ai/free-apis/terms)
+- [Privacy policy](https://www.bargo.ai/privacy)
+- [GitHub](https://github.com/bargo-ai)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Bargo
-**Email:** support@bargo.ai
-**URL:** https://www.bargo.ai/
+**Kin Score 48.2** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 51.7 |
+| Contract governance | 4.5 |
+| Operational transparency | 34.2 |
+| Developer ergonomics | 71.4 |
+| Access clarity | 34.2 |
+
+**Agent readiness 43.7** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | na |
+| MCP Server | verified |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | na |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | documented (partial credit) |
+| Rate Limit Signal | verified |
+| Event Surface Described | — |
+| Agent Skills | yes |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | na |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 24.5** — Government & Public Sector
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/bargo-congress-trades-api/](https://apis.io/providers/bargo-congress-trades-api/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Bargo Congress Trades API: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/bargo-congress-trades-api/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
